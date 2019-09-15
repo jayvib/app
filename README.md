@@ -1,4 +1,4 @@
-# clean-architecture
+# app
 [![Build Status](https://travis-ci.org/jayvib/clean-architecture.svg?branch=master)](https://travis-ci.org/jayvib/clean-architecture)
 
 This is an exercise and understand the clean architecture concept
