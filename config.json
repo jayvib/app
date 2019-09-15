@@ -1,0 +1,14 @@
+{
+	"debug": true,
+	"database":{
+		"host": "mysql",
+		"port": "3306",
+		"user": "user",
+		"name": "app",
+		"pass": "mypassword"
+	},
+	"server": {
+		"address": ":9090"
+	},
+   "jwttoken": "dontforgettobeawesome" 
+}

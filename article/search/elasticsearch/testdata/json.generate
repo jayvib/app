@@ -1,0 +1,13 @@
+https://json-generator.com
+===================================
+[
+  '{{repeat(5, 20)}}',
+  {
+    id: '{{objectId()}}',
+    content: '{{lorem(10)}}',
+    title: '{{lorem(1, "words")}}',
+    created_at: '{{date(new Date(2014, 0, 1), new Date(), "YYYY-MM-ddThh:mm:ssZ")}}',
+    updated_at: '{{date(new Date(2014, 0, 1), new Date(), "YYYY-MM-ddThh:mm:ssZ")}}'
+  }
+]
+====================================

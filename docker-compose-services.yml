@@ -1,0 +1,47 @@
+version: "3.7"
+services:
+    mysql:
+        image: mysql:5.7
+        container_name: clean_architecture_mysql_test
+        command: mysqld --user=root
+        ports:
+            - 3306:3306
+        volumes:
+            - ./app.sql:/docker-entrypoint-initdb.d/init.sql
+
+        network_mode: host
+        environment:
+            - MYSQL_DATABASE=app
+            - MYSQL_USER=user
+            - MYSQL_PASSWORD=mypassword
+            - MYSQL_ROOT_PASSWORD=root
+        healthcheck:
+            test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+            timeout: 5s
+            retries: 10
+
+    dynamo:
+        image: amazon/dynamodb-local
+        container_name: clean_architecture_dynamo_test
+        ports:
+           - 8000:8000
+        network_mode: host
+
+    elasticsearch:
+        image: elasticsearch:7.3.1
+        container_name: clean_architecture_es_test
+        ports:
+            - 9200:9200
+            - 9300:9300
+        environment:
+            - discovery.type=single-node
+
+    kibana:
+        image: kibana:7.3.1
+        container_name: clean_architecture_kibana_test
+        ports:
+            - 5601:5601
+        environment:
+            - ELASTICSEARCH_URL=http://localhost:9200 
+        depends_on:
+            - elasticsearch

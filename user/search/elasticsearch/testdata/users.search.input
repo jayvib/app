@@ -1,0 +1,72 @@
+[
+	{
+		"id": "id1",
+		"firstname": "Luffy",
+		"lastname": "Monkey",
+		"email": "luffy.monkey@onepiece.com",
+		"username": "luffy.monkey",
+		"password": "pirateking",
+		"created_at": "2019-09-06T19:06:54.303461086+08:00",
+		"updated_at": "2019-09-06T19:06:54.303461299+08:00"
+	},
+	{
+		"id": "id2",
+		"firstname": "Luffy",
+		"lastname": "Monkeys",
+		"email": "luffy.monkeys@onepiece.com",
+		"username": "luffy.monkeys",
+		"password": "pirateking",
+		"created_at": "2019-09-06T19:06:54.3034614+08:00",
+		"updated_at": "2019-09-06T19:06:54.30346148+08:00"
+	},
+	{
+		"id": "id3",
+		"firstname": "Luffy",
+		"lastname": "Monkeyz",
+		"email": "luffy.monkeyz@onepiece.com",
+		"username": "luffy.monkeyz",
+		"password": "pirateking",
+		"created_at": "2019-09-06T19:06:54.303461558+08:00",
+		"updated_at": "2019-09-06T19:06:54.303461633+08:00"
+	},
+	{
+		"id": "id4",
+		"firstname": "Luffy",
+		"lastname": "Monkoyz",
+		"email": "luffy.monkoyz@onepiece.com",
+		"username": "luffy.monkoyz",
+		"password": "pirateking",
+		"created_at": "2019-09-06T19:06:54.30346171+08:00",
+		"updated_at": "2019-09-06T19:06:54.303461788+08:00"
+	},
+	{
+		"id": "id5",
+		"firstname": "Luffy",
+		"lastname": "Monkayz",
+		"email": "luffy.monkayz@onepiece.com",
+		"username": "luffy.monkayz",
+		"password": "pirateking",
+		"created_at": "2019-09-06T19:06:54.303461865+08:00",
+		"updated_at": "2019-09-06T19:06:54.303461942+08:00"
+	},
+	{
+		"id": "id6",
+		"firstname": "Sanji",
+		"lastname": "Vinsmoke",
+		"email": "luffy.monkey@onepiece.com",
+		"username": "sanji.vinsmoke",
+		"password": "bestcook",
+		"created_at": "2019-09-06T19:06:54.303462019+08:00",
+		"updated_at": "2019-09-06T19:06:54.303462095+08:00"
+	},
+	{
+		"id": "id7",
+		"firstname": "Roronoa",
+		"lastname": "Zoro",
+		"email": "roronoa.zoro@onepiece.com",
+		"username": "roronoa.zoro",
+		"password": "bestswordsman",
+		"created_at": "2019-09-06T19:06:54.303462171+08:00",
+		"updated_at": "2019-09-06T19:06:54.303462264+08:00"
+	}
+]

@@ -1,0 +1,19 @@
+{
+	"debug": true,
+	"database":{
+		"host": "localhost",
+		"port": "3306",
+		"user": "user",
+		"name": "app",
+		"pass": "mypassword"
+	},
+	"elasticsearch": {
+		"servers": [
+			"http://127.0.0.1:9200"
+		]
+	},
+	"server": {
+		"address": ":9090"
+	},
+   "jwttoken": "dontforgettobeawesome" 
+}

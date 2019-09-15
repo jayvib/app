@@ -1,0 +1,89 @@
+syntax = "proto3";
+package proto;
+
+import "google/protobuf/timestamp.proto";
+
+message User {
+    string id = 1;
+    string firstname = 2;
+    string lastname = 3;
+    string email = 4;
+    string username = 5;
+    string password = 6;
+    google.protobuf.Timestamp createdAt = 7;
+    google.protobuf.Timestamp updatedAt = 8;
+}
+
+message StoreRequest {
+    User user = 1;
+    string api = 2;
+}
+
+message StoreResponse {
+    User user = 1;
+    string api = 2;
+}
+
+message UpdateRequest {
+    User user = 1;
+    string api = 2;
+}
+
+message UpdateResponse {
+    User user = 1;
+    string api = 2;
+}
+
+message DeleteRequest {
+    string id = 1;
+    string api = 2;
+}
+
+message DeleteResponse {
+    string id = 1;
+    string api = 2;
+}
+
+message SearchByNameRequest {
+    string name = 1;
+    int64 num = 2;
+    int64 size = 3;
+    string api = 4;
+}
+
+message SearchByNameResponse {
+    repeated User users = 1;
+    int64 nextPage = 2;
+    string api = 3;
+}
+
+message SearchInput {
+    string scrollId = 1;
+    string query = 2;
+    int64 size = 3;
+    int64 from = 4;
+    string api = 5;
+}
+
+message SearchRequest {
+    SearchInput searchInput = 1;
+    string api = 2;
+}
+
+message SearchResponse {
+    repeated User users = 1;
+    int64 totalHits = 2;
+    int64 tookInMillis = 3;
+    string scrollId = 4;
+    bool timedOut = 5;
+    int64 next = 6;
+    string api = 7;
+}
+
+service UserSearchService {
+    rpc Update(UpdateRequest) returns (UpdateResponse);
+    rpc Store(StoreRequest) returns (StoreResponse);
+    rpc Delete(DeleteRequest) returns (DeleteResponse);
+    rpc SearchByName(SearchByNameRequest) returns (SearchByNameResponse);
+    rpc Search(SearchRequest) returns (SearchResponse);
+}

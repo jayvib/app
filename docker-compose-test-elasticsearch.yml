@@ -1,0 +1,20 @@
+version: "3.7"
+services:
+    elasticsearch:
+        image: elasticsearch:7.3.1
+        container_name: clean_architecture_es_test
+        ports:
+            - 9200:9200
+            - 9300:9300
+        environment:
+            - discovery.type=single-node
+
+    kibana:
+        image: kibana:7.3.1
+        container_name: clean_architecture_kibana_test
+        ports:
+            - 5601:5601
+        environment:
+            - ELASTICSEARCH_URL=http://localhost:9200 
+        depends_on:
+            - elasticsearch
