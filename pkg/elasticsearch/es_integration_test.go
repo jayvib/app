@@ -3,8 +3,8 @@
 package elasticsearch_test
 
 import (
-	"github.com/jayvib/clean-architecture/config"
-	"github.com/jayvib/clean-architecture/pkg/elasticsearch"
+	"github.com/jayvib/app/config"
+	"github.com/jayvib/app/pkg/elasticsearch"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 	"testing"

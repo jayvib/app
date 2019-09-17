@@ -3,7 +3,7 @@ package mysql
 import (
 	"database/sql"
 	"fmt"
-	"github.com/jayvib/clean-architecture/config"
+	"github.com/jayvib/app/config"
 	"github.com/sirupsen/logrus"
 	"net/url"
 )

@@ -8,10 +8,10 @@ import (
 	"testing"
 	"time"
 
-	myerr "github.com/jayvib/clean-architecture/apperr"
-	"github.com/jayvib/clean-architecture/article/mocks"
-	authorMocks "github.com/jayvib/clean-architecture/author/mocks"
-	"github.com/jayvib/clean-architecture/model"
+	myerr "github.com/jayvib/app/apperr"
+	"github.com/jayvib/app/article/mocks"
+	authorMocks "github.com/jayvib/app/author/mocks"
+	"github.com/jayvib/app/model"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/mock"
 )

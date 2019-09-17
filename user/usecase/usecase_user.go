@@ -2,12 +2,12 @@ package usecase
 
 import (
 	"context"
-	"github.com/jayvib/clean-architecture/apperr"
-	"github.com/jayvib/clean-architecture/author"
-	"github.com/jayvib/clean-architecture/model"
-	"github.com/jayvib/clean-architecture/user"
-	"github.com/jayvib/clean-architecture/utils/crypto"
-	"github.com/jayvib/clean-architecture/utils/generateutil"
+	"github.com/jayvib/app/apperr"
+	"github.com/jayvib/app/author"
+	"github.com/jayvib/app/model"
+	"github.com/jayvib/app/user"
+	"github.com/jayvib/app/utils/crypto"
+	"github.com/jayvib/app/utils/generateutil"
 	"github.com/sirupsen/logrus"
 	"time"
 )

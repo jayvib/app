@@ -4,9 +4,9 @@ import (
 	"context"
 	"database/sql"
 
-	"github.com/jayvib/clean-architecture/apperr"
-	"github.com/jayvib/clean-architecture/author"
-	"github.com/jayvib/clean-architecture/model"
+	"github.com/jayvib/app/apperr"
+	"github.com/jayvib/app/author"
+	"github.com/jayvib/app/model"
 	"github.com/sirupsen/logrus"
 )
 

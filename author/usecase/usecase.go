@@ -2,8 +2,8 @@ package usecase
 
 import (
 	"context"
-	"github.com/jayvib/clean-architecture/author"
-	"github.com/jayvib/clean-architecture/model"
+	"github.com/jayvib/app/author"
+	"github.com/jayvib/app/model"
 )
 
 func New(repo author.Repository) author.Usecase {

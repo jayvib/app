@@ -3,10 +3,10 @@ package user
 import (
 	"context"
 
-	"github.com/jayvib/clean-architecture/model"
+	"github.com/jayvib/app/model"
 )
 
-//go:generate mockery -name=SearchEngine
+//go:generate mockery -name=Usecase
 
 type Usecase interface {
 	GetByID(ctx context.Context, id string) (*model.User, error)

@@ -2,7 +2,7 @@ package user
 
 import (
 	"context"
-	"github.com/jayvib/clean-architecture/model"
+	"github.com/jayvib/app/model"
 )
 
 //go:generate mockery -name=SearchEngine

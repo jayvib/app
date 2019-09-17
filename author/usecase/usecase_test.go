@@ -4,9 +4,9 @@ package usecase_test
 
 import (
 	"context"
-	"github.com/jayvib/clean-architecture/author/mocks"
-	"github.com/jayvib/clean-architecture/author/usecase"
-	"github.com/jayvib/clean-architecture/model"
+	"github.com/jayvib/app/author/mocks"
+	"github.com/jayvib/app/author/usecase"
+	"github.com/jayvib/app/model"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/mock"
 	"github.com/stretchr/testify/require"

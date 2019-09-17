@@ -4,9 +4,9 @@ import (
 	"context"
 	"errors"
 	"github.com/golang/protobuf/ptypes"
-	"github.com/jayvib/clean-architecture/model"
-	"github.com/jayvib/clean-architecture/user"
-	"github.com/jayvib/clean-architecture/user/delivery/grpc/v1/proto"
+	"github.com/jayvib/app/model"
+	"github.com/jayvib/app/user"
+	"github.com/jayvib/app/user/delivery/grpc/v1/proto"
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/status"
 )

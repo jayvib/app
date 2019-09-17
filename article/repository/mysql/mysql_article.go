@@ -5,9 +5,9 @@ import (
 	"database/sql"
 	"encoding/base64"
 	"errors"
-	apperror "github.com/jayvib/clean-architecture/apperr"
-	"github.com/jayvib/clean-architecture/article"
-	"github.com/jayvib/clean-architecture/model"
+	apperror "github.com/jayvib/app/apperr"
+	"github.com/jayvib/app/article"
+	"github.com/jayvib/app/model"
 	"github.com/sirupsen/logrus"
 	"time"
 )

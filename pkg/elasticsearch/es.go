@@ -3,7 +3,7 @@ package elasticsearch
 import (
 	"context"
 	"fmt"
-	"github.com/jayvib/clean-architecture/config"
+	"github.com/jayvib/app/config"
 	"github.com/olivere/elastic/v7"
 	"sync"
 )

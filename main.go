@@ -3,8 +3,8 @@ package main
 import (
 	"database/sql"
 	"fmt"
-	"github.com/jayvib/clean-architecture/config"
-	jlog "github.com/jayvib/clean-architecture/log"
+	"github.com/jayvib/app/config"
+	jlog "github.com/jayvib/app/log"
 	"log"
 	"net/url"
 	"os"
@@ -13,14 +13,14 @@ import (
 	_ "github.com/go-sql-driver/mysql"
 
 	"github.com/gin-gonic/gin"
-	articlehttp "github.com/jayvib/clean-architecture/article/delivery/http"
-	articlerepo "github.com/jayvib/clean-architecture/article/repository/mysql"
-	articleusecase "github.com/jayvib/clean-architecture/article/usecase"
-	authorrepo "github.com/jayvib/clean-architecture/author/repository/mysql"
-	jwtmiddleware "github.com/jayvib/clean-architecture/middleware/jwt"
-	userhttp "github.com/jayvib/clean-architecture/user/delivery/http"
-	userrepo "github.com/jayvib/clean-architecture/user/repository/mysql"
-	userusecase "github.com/jayvib/clean-architecture/user/usecase"
+	articlehttp "github.com/jayvib/app/article/delivery/http"
+	articlerepo "github.com/jayvib/app/article/repository/mysql"
+	articleusecase "github.com/jayvib/app/article/usecase"
+	authorrepo "github.com/jayvib/app/author/repository/mysql"
+	jwtmiddleware "github.com/jayvib/app/middleware/jwt"
+	userhttp "github.com/jayvib/app/user/delivery/http"
+	userrepo "github.com/jayvib/app/user/repository/mysql"
+	userusecase "github.com/jayvib/app/user/usecase"
 	"github.com/sirupsen/logrus"
 )
 

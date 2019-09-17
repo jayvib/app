@@ -9,7 +9,7 @@ import (
 	"time"
 
 	"github.com/DATA-DOG/go-sqlmock"
-	"github.com/jayvib/clean-architecture/model"
+	"github.com/jayvib/app/model"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 )

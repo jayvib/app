@@ -3,9 +3,9 @@ package dynamodb
 import (
 	"fmt"
 	sdk "github.com/aws/aws-sdk-go/service/dynamodb"
-	"github.com/jayvib/clean-architecture/log"
-	"github.com/jayvib/clean-architecture/pkg/aws/config"
-	"github.com/jayvib/clean-architecture/pkg/aws/session"
+	"github.com/jayvib/app/log"
+	"github.com/jayvib/app/pkg/aws/config"
+	"github.com/jayvib/app/pkg/aws/session"
 	"sync"
 )
 

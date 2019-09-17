@@ -9,12 +9,12 @@ import (
 	"github.com/aws/aws-sdk-go/service/dynamodb"
 	"github.com/awslabs/aws-lambda-go-api-proxy/gin"
 	"github.com/gin-gonic/gin"
-	authordynamo "github.com/jayvib/clean-architecture/author/repository/dynamo"
-	"github.com/jayvib/clean-architecture/config"
-	"github.com/jayvib/clean-architecture/user"
-	"github.com/jayvib/clean-architecture/user/delivery/http"
-	userdynamo "github.com/jayvib/clean-architecture/user/repository/dynamo"
-	"github.com/jayvib/clean-architecture/user/usecase"
+	authordynamo "github.com/jayvib/app/author/repository/dynamo"
+	"github.com/jayvib/app/config"
+	"github.com/jayvib/app/user"
+	"github.com/jayvib/app/user/delivery/http"
+	userdynamo "github.com/jayvib/app/user/repository/dynamo"
+	"github.com/jayvib/app/user/usecase"
 	"log"
 )
 

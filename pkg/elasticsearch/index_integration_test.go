@@ -4,7 +4,7 @@ package elasticsearch_test
 
 import (
 	"context"
-	"github.com/jayvib/clean-architecture/pkg/elasticsearch"
+	"github.com/jayvib/app/pkg/elasticsearch"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 	"os"

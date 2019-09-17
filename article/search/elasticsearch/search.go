@@ -2,11 +2,11 @@ package elasticsearch
 
 import (
 	"context"
-	"github.com/jayvib/clean-architecture/apperr"
-	internalsearch "github.com/jayvib/clean-architecture/internal/app/search"
-	"github.com/jayvib/clean-architecture/log"
-	"github.com/jayvib/clean-architecture/model"
-	"github.com/jayvib/clean-architecture/pkg/validator"
+	"github.com/jayvib/app/apperr"
+	internalsearch "github.com/jayvib/app/internal/app/search"
+	"github.com/jayvib/app/log"
+	"github.com/jayvib/app/model"
+	"github.com/jayvib/app/pkg/validator"
 	"github.com/olivere/elastic/v7"
 	"reflect"
 )

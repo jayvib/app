@@ -4,11 +4,11 @@ package mysql_test
 
 import (
 	"context"
-	"github.com/jayvib/clean-architecture/article"
-	mysqlrepo "github.com/jayvib/clean-architecture/article/repository/mysql"
-	"github.com/jayvib/clean-architecture/config"
-	"github.com/jayvib/clean-architecture/pkg/database/mysql"
-	apptime "github.com/jayvib/clean-architecture/time"
+	"github.com/jayvib/app/article"
+	mysqlrepo "github.com/jayvib/app/article/repository/mysql"
+	"github.com/jayvib/app/config"
+	"github.com/jayvib/app/pkg/database/mysql"
+	apptime "github.com/jayvib/app/time"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 	"time"

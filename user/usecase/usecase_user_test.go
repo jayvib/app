@@ -4,15 +4,15 @@ package usecase
 
 import (
 	"context"
-	"github.com/jayvib/clean-architecture/apperr"
+	"github.com/jayvib/app/apperr"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/mock"
 	"github.com/stretchr/testify/require"
 	"testing"
 
-	authormocks "github.com/jayvib/clean-architecture/author/mocks"
-	"github.com/jayvib/clean-architecture/model"
-	"github.com/jayvib/clean-architecture/user/mocks"
+	authormocks "github.com/jayvib/app/author/mocks"
+	"github.com/jayvib/app/model"
+	"github.com/jayvib/app/user/mocks"
 )
 
 var mockUser = &model.User{

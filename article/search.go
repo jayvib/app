@@ -2,7 +2,7 @@ package article
 
 import (
 	"context"
-	internalsearch "github.com/jayvib/clean-architecture/internal/app/search"
+	internalsearch "github.com/jayvib/app/internal/app/search"
 )
 
 //go:generate mockery --name SearchEngine

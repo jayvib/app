@@ -15,7 +15,7 @@ limitations under the License.
 */
 package main
 
-import "github.com/jayvib/clean-architecture/cmd/appcli/cmd"
+import "github.com/jayvib/app/cmd/appcli/cmd"
 
 func main() {
 	cmd.Execute()

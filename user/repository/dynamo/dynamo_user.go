@@ -6,9 +6,9 @@ import (
 	"github.com/aws/aws-sdk-go/service/dynamodb"
 	"github.com/aws/aws-sdk-go/service/dynamodb/dynamodbattribute"
 	"github.com/aws/aws-sdk-go/service/dynamodb/dynamodbiface"
-	apperror "github.com/jayvib/clean-architecture/apperr"
-	"github.com/jayvib/clean-architecture/model"
-	"github.com/jayvib/clean-architecture/user"
+	apperror "github.com/jayvib/app/apperr"
+	"github.com/jayvib/app/model"
+	"github.com/jayvib/app/user"
 	"github.com/sirupsen/logrus"
 	"time"
 )

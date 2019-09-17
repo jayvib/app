@@ -5,7 +5,7 @@ package mocks
 import (
 	context "context"
 
-	search "github.com/jayvib/clean-architecture/internal/app/search"
+	search "github.com/jayvib/app/internal/app/search"
 	mock "github.com/stretchr/testify/mock"
 )
 
@@ -15,14 +15,16 @@ type SearchEngine struct {
 }
 
 // Search provides a mock function with given fields: ctx, input
-func (_m *SearchEngine) Search(ctx context.Context, input search.Input) (search.Result, error) {
+func (_m *SearchEngine) Search(ctx context.Context, input search.Input) (*search.Result, error) {
 	ret := _m.Called(ctx, input)
 
-	var r0 search.Result
-	if rf, ok := ret.Get(0).(func(context.Context, search.Input) search.Result); ok {
+	var r0 *search.Result
+	if rf, ok := ret.Get(0).(func(context.Context, search.Input) *search.Result); ok {
 		r0 = rf(ctx, input)
 	} else {
-		r0 = ret.Get(0).(search.Result)
+		if ret.Get(0) != nil {
+			r0 = ret.Get(0).(*search.Result)
+		}
 	}
 
 	var r1 error

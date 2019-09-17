@@ -1,8 +1,8 @@
 package elasticsearch
 
 import (
-	"github.com/jayvib/clean-architecture/log"
-	"github.com/jayvib/clean-architecture/pkg/validator"
+	"github.com/jayvib/app/log"
+	"github.com/jayvib/app/pkg/validator"
 )
 
 // SetValidatorOpt use a custom validator to be use for the

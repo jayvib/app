@@ -3,7 +3,7 @@ package dynamo
 import (
 	"github.com/aws/aws-sdk-go/service/dynamodb"
 	"github.com/aws/aws-sdk-go/service/dynamodb/dynamodbattribute"
-	"github.com/jayvib/clean-architecture/model"
+	"github.com/jayvib/app/model"
 )
 
 // TODO: use the MarshalMap directly no need to wrap

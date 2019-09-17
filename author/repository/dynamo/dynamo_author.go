@@ -7,9 +7,9 @@ import (
 	"github.com/aws/aws-sdk-go/service/dynamodb"
 	"github.com/aws/aws-sdk-go/service/dynamodb/dynamodbattribute"
 	"github.com/aws/aws-sdk-go/service/dynamodb/dynamodbiface"
-	"github.com/jayvib/clean-architecture/apperr"
-	"github.com/jayvib/clean-architecture/author"
-	"github.com/jayvib/clean-architecture/model"
+	"github.com/jayvib/app/apperr"
+	"github.com/jayvib/app/author"
+	"github.com/jayvib/app/model"
 )
 
 func New(svc dynamodbiface.DynamoDBAPI) author.Repository {

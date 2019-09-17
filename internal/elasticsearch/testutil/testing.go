@@ -3,7 +3,7 @@ package testutil
 import (
 	"context"
 	"fmt"
-	"github.com/jayvib/clean-architecture/log"
+	"github.com/jayvib/app/log"
 	"github.com/olivere/elastic/v7"
 	"github.com/stretchr/testify/require"
 	"io/ioutil"

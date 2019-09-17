@@ -2,15 +2,15 @@ package usecase
 
 import (
 	"context"
-	"github.com/jayvib/clean-architecture/utils/generateutil"
+	"github.com/jayvib/app/utils/generateutil"
 	"github.com/sirupsen/logrus"
 	"golang.org/x/sync/errgroup"
 	"time"
 
-	apperrors "github.com/jayvib/clean-architecture/apperr"
-	"github.com/jayvib/clean-architecture/article"
-	"github.com/jayvib/clean-architecture/author"
-	"github.com/jayvib/clean-architecture/model"
+	apperrors "github.com/jayvib/app/apperr"
+	"github.com/jayvib/app/article"
+	"github.com/jayvib/app/author"
+	"github.com/jayvib/app/model"
 )
 
 func New(artr article.Repository, autr author.Repository, duration time.Duration) article.Usecase {

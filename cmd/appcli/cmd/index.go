@@ -18,8 +18,8 @@ package cmd
 import (
 	"context"
 	"fmt"
-	"github.com/jayvib/clean-architecture/config"
-	"github.com/jayvib/clean-architecture/pkg/elasticsearch"
+	"github.com/jayvib/app/config"
+	"github.com/jayvib/app/pkg/elasticsearch"
 	"github.com/olivere/elastic/v7"
 	"github.com/prometheus/common/log"
 	"github.com/sirupsen/logrus"

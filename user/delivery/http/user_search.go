@@ -3,9 +3,9 @@ package http
 import (
 	"context"
 	"github.com/gin-gonic/gin"
-	"github.com/jayvib/clean-architecture/apperr"
-	"github.com/jayvib/clean-architecture/log"
-	"github.com/jayvib/clean-architecture/user"
+	"github.com/jayvib/app/apperr"
+	"github.com/jayvib/app/log"
+	"github.com/jayvib/app/user"
 	"net/http"
 	"strconv"
 )

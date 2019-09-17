@@ -5,7 +5,7 @@ package mocks
 import (
 	context "context"
 
-	model "github.com/jayvib/clean-architecture/model"
+	model "github.com/jayvib/app/model"
 	mock "github.com/stretchr/testify/mock"
 )
 
