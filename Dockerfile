@@ -5,7 +5,7 @@ RUN apk update && apk upgrade && \
     apk --update add git gcc make
 
 
-WORKDIR /go/src/github.com/jayvib/clean-architecture
+WORKDIR /go/src/github.com/jayvib/app
 
 COPY . .
 
@@ -24,7 +24,7 @@ WORKDIR /app
 
 EXPOSE 9090 
 
-COPY --from=builder /go/src/github.com/jayvib/clean-architecture/engine.linux /app
+COPY --from=builder /go/src/github.com/jayvib/app/engine.linux /app
 
 CMD /app/engine.linux
 

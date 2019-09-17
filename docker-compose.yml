@@ -1,7 +1,7 @@
 version: "3.7"
 services:
-    clean_architecture:
-        image: clean-architecture:latest
+    app:
+        image: app:latest
         container_name: app_api
         ports:
             - 9090:9090
@@ -13,7 +13,7 @@ services:
            - ./config.json:/app/config.json
     mysql:
         image: mysql:5.7
-        container_name: clean_architecture_mysql
+        container_name: app_mysql
         command: mysqld --user=root
         ports:
             - 3306:3306
@@ -30,7 +30,7 @@ services:
             retries: 10
     adminer:
         image: adminer
-        container_name: clean_architecture_sql_admin
+        container_name: app_sql_admin
         restart: always
         ports:
             - 8080:8080
