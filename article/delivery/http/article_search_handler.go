@@ -11,14 +11,14 @@ import (
 )
 
 // Please Implement Me
-func RegisterArticleSearchHandler(r gin.IRouter, se article.SearchEngine) {
-	articleHandler := NewArticleSearchHandler(se)
+func RegisterSearchHandler(r gin.IRouter, se article.SearchEngine) {
+	articleHandler := NewSearchHandler(se)
 	r.GET("/search/article", articleHandler.Search)
 }
 
-// NewArticleSearchHandler takes a SearchEngine and return the object containing
+// NewSearchHandler takes a SearchEngine and return the object containing
 // all the handlers of the article search.
-func NewArticleSearchHandler(se article.SearchEngine) *ArticleSearchHandler {
+func NewSearchHandler(se article.SearchEngine) *ArticleSearchHandler {
 	return &ArticleSearchHandler{
 		se: se,
 	}

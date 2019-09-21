@@ -15,7 +15,6 @@ import (
 	"testing"
 )
 
-// TODO: Please Implement me
 func TestSearch(t *testing.T) {
 	r := gin.Default()
 	searchEngineMock := new(mocks.SearchEngine)
@@ -39,7 +38,7 @@ func TestSearch(t *testing.T) {
 	searchEngineMock.On("Search", mock.Anything, mock.AnythingOfType("search.Input"))	.
 		Return(expected, nil).Once()
 
-	RegisterArticleSearchHandler(r,  searchEngineMock)
+	RegisterSearchHandler(r,  searchEngineMock)
 	w := performRequest(r, http.MethodGet, "/search/article?q=testing", nil)
 	require.Equal(t, http.StatusOK, w.Code)
 
