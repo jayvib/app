@@ -3,7 +3,7 @@
 package http_test
 
 import (
-	estestutil "github.com/jayvib/app/internal/elasticsearch/testutil"
+	estestutil "github.com/jayvib/app/internal/app/search/elasticsearch/testutil"
 	"github.com/olivere/elastic/v7"
 	"github.com/stretchr/testify/suite"
 	"testing"

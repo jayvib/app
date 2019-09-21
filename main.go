@@ -4,11 +4,13 @@ import (
 	"database/sql"
 	"fmt"
 	"github.com/jayvib/app/config"
+	"github.com/jayvib/app/internal/app/search/elasticsearch"
 	jlog "github.com/jayvib/app/log"
 	"github.com/olivere/elastic/v7"
 	"log"
 	"net/url"
 	"os"
+	"path/filepath"
 	"time"
 
 	_ "github.com/go-sql-driver/mysql"
@@ -26,13 +28,25 @@ import (
 	"github.com/sirupsen/logrus"
 )
 
-// Generate tools to use.
-
 var conf *config.Config
 
 var (
 	Version     string
 	Environment string
+)
+
+var (
+	db *sql.DB
+	es *elastic.Client
+)
+
+var (
+	// ESIndexMappingFilename consist of index name as a key and
+	// the file path to its equivalent mapping.
+	ESIndexMappingFilename = map[string]string{
+		"user":    filepath.Join("internal", "app", "search", "elasticsearch", "user.json"),
+		"article": filepath.Join("internal", "app", "search", "elasticsearch", "article.json"),
+	}
 )
 
 func init() {
@@ -56,12 +70,15 @@ func main() {
 	printInfo()
 
 	// ##########THIRD PARTY##########
-	db, err := newDBConnection()
+	var err error
+	db, err = newDBConnection()
 	if err != nil {
 		log.Fatal(err)
 	}
 
-	esClient := newESClient()
+	es = newESClient()
+	createESIndex()
+
 
 	// ###########ROUTER##############
 	e := gin.Default()
@@ -74,7 +91,7 @@ func main() {
 
 	// ###########User############
 	userRepo := userrepo.New(db)
-	userSearchEngine := usersearches.New(esClient)
+	userSearchEngine := usersearches.New(es)
 	userUsecase := userusecase.New(userRepo, authorRepo, userSearchEngine)
 
 	// ##########Article###########
@@ -127,9 +144,19 @@ func newDBConnection() (*sql.DB, error) {
 func newESClient() *elastic.Client {
 	esClient, err := elastic.NewClient(
 		elastic.SetURL(conf.Elasticsearch.Servers...),
-		elastic.SetSniff(false))
+		elastic.SetSniff(false),
+		elastic.SetHealthcheckInterval(5*time.Second))
 	if err != nil {
 		log.Fatal(err)
 	}
 	return esClient
+}
+
+func createESIndex() {
+	for index, mappingFile := range ESIndexMappingFilename {
+		err := elasticsearch.CreateIndex(es, index, mappingFile)
+		if err != nil {
+			log.Fatal(err)
+		}
+	}
 }

@@ -9,7 +9,7 @@ import (
 	articlesearches "github.com/jayvib/app/article/search/elasticsearch"
 	"github.com/jayvib/app/config"
 	internalsearch "github.com/jayvib/app/internal/app/search"
-	"github.com/jayvib/app/internal/elasticsearch/testutil"
+	"github.com/jayvib/app/internal/app/search/elasticsearch/testutil"
 	"github.com/jayvib/app/model"
 	"github.com/olivere/elastic/v7"
 	"github.com/stretchr/testify/assert"

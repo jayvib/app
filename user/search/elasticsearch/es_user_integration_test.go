@@ -7,7 +7,7 @@ import (
 	"encoding/json"
 	"github.com/jayvib/app/apperr"
 	"github.com/jayvib/app/config"
-	"github.com/jayvib/app/internal/elasticsearch/testutil"
+	"github.com/jayvib/app/internal/app/search/elasticsearch/testutil"
 	"github.com/jayvib/app/log"
 	"github.com/jayvib/app/model"
 	"github.com/jayvib/app/pkg/elasticsearch"

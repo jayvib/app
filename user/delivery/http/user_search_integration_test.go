@@ -6,7 +6,7 @@ import (
 	"encoding/json"
 	"github.com/gin-gonic/gin"
 	"github.com/jayvib/app/config"
-	estestutil "github.com/jayvib/app/internal/elasticsearch/testutil"
+	estestutil "github.com/jayvib/app/internal/app/search/elasticsearch/testutil"
 	"github.com/jayvib/app/log"
 	"github.com/jayvib/app/model"
 	"github.com/jayvib/app/user"

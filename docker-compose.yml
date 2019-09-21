@@ -3,6 +3,8 @@ services:
     app:
         image: app:latest
         container_name: app_api
+        environment:
+            - APP_ENV=PRODUCTION
         ports:
             - 9090:9090
         depends_on:
