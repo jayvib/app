@@ -11,6 +11,15 @@ services:
 
         volumes:
            - ./config.json:/app/config.json
+    elasticsearch:
+        image: elasticsearch:7.3.1
+        container_name: app_es
+        ports:
+        - 9200:9200
+        - 9300:9300
+        environment:
+        - discovery.type=single-node
+
     mysql:
         image: mysql:5.7
         container_name: app_mysql
