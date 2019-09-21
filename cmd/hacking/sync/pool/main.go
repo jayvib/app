@@ -9,7 +9,7 @@ import (
 // Tutorial from:
 // https://riptutorial.com/go/example/16314/sync-pool
 
-var pool = sync.Pool {
+var pool = sync.Pool{
 	New: func() interface{} {
 		return new(bytes.Buffer)
 	},

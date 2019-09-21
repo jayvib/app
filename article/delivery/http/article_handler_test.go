@@ -165,6 +165,7 @@ func getValidAuthToken() (string, error) {
 	e := gin.Default()
 	userRepo := new(usermocks.Repository)
 	authorRepo := new(authormocks.Repository)
+	searchEngineMock := new(usermocks.SearchEngine)
 	user := &model.User{
 		Firstname: "Luffy",
 		Lastname:  "Monkey",
@@ -176,7 +177,8 @@ func getValidAuthToken() (string, error) {
 	userRepo.On("GetByUsername", mock.Anything, mock.AnythingOfType("string")).Return(nil, apperrors.ItemNotFound).Once()
 	userRepo.On("GetByEmail", mock.Anything, mock.AnythingOfType("string")).Return(nil, apperrors.ItemNotFound).Once()
 	authorRepo.On("Store", mock.Anything, mock.AnythingOfType("*model.Author")).Return(nil).Once()
-	userUsecase := userusecase.New(userRepo, authorRepo)
+	searchEngineMock.On("Store", mock.Anything, mock.AnythingOfType("*model.User")).Return(nil).Once()
+	userUsecase := userusecase.New(userRepo, authorRepo, searchEngineMock)
 	userHandler := userhttp.NewUserHandler(conf, userUsecase)
 	e.POST("/user/new", userHandler.Register)
 	payload, err := json.Marshal(user)

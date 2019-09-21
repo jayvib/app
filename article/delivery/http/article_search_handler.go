@@ -44,8 +44,8 @@ func (a *ArticleSearchHandler) Search(c *gin.Context) {
 
 	input := search.Input{
 		Query: query,
-		Size: parseInt(sizeStr),
-		From: parseInt(fromStr),
+		Size:  parseInt(sizeStr),
+		From:  parseInt(fromStr),
 	}
 	ctx := c.Request.Context()
 	result, err := a.se.Search(ctx, input)
@@ -54,4 +54,3 @@ func (a *ArticleSearchHandler) Search(c *gin.Context) {
 	}
 	c.JSON(http.StatusOK, result)
 }
-

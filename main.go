@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"github.com/jayvib/app/config"
 	jlog "github.com/jayvib/app/log"
+	"github.com/olivere/elastic/v7"
 	"log"
 	"net/url"
 	"os"
@@ -20,6 +21,7 @@ import (
 	jwtmiddleware "github.com/jayvib/app/middleware/jwt"
 	userhttp "github.com/jayvib/app/user/delivery/http"
 	userrepo "github.com/jayvib/app/user/repository/mysql"
+	usersearches "github.com/jayvib/app/user/search/elasticsearch"
 	userusecase "github.com/jayvib/app/user/usecase"
 	"github.com/sirupsen/logrus"
 )
@@ -52,10 +54,16 @@ func init() {
 func main() {
 	printDBValues()
 	printInfo()
-	db, err := getDBConnection()
+
+	// ##########THIRD PARTY##########
+	db, err := newDBConnection()
 	if err != nil {
 		log.Fatal(err)
 	}
+
+	esClient := newESClient()
+
+	// ###########ROUTER##############
 	e := gin.Default()
 	api := e.Group("/")           // authentication not required
 	authapi := e.Group("/api/v1") // authentication is required
@@ -66,7 +74,8 @@ func main() {
 
 	// ###########User############
 	userRepo := userrepo.New(db)
-	userUsecase := userusecase.New(userRepo, authorRepo)
+	userSearchEngine := usersearches.New(esClient)
+	userUsecase := userusecase.New(userRepo, authorRepo, userSearchEngine)
 
 	// ##########Article###########
 	articleRepo := articlerepo.New(db)
@@ -93,7 +102,7 @@ func printInfo() {
 	fmt.Println("Environment:", Environment)
 }
 
-func getDBConnection() (*sql.DB, error) {
+func newDBConnection() (*sql.DB, error) {
 	conn := fmt.Sprintf(
 		"%s:%s@tcp(%s:%s)/%s",
 		conf.Database.User, conf.Database.Pass,
@@ -113,4 +122,14 @@ func getDBConnection() (*sql.DB, error) {
 		return nil, err
 	}
 	return dbConn, nil
+}
+
+func newESClient() *elastic.Client {
+	esClient, err := elastic.NewClient(
+		elastic.SetURL(conf.Elasticsearch.Servers...),
+		elastic.SetSniff(false))
+	if err != nil {
+		log.Fatal(err)
+	}
+	return esClient
 }

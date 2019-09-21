@@ -14,8 +14,11 @@ import (
 	"github.com/jayvib/app/user"
 	"github.com/jayvib/app/user/delivery/http"
 	userdynamo "github.com/jayvib/app/user/repository/dynamo"
+	usersearches "github.com/jayvib/app/user/search/elasticsearch"
 	"github.com/jayvib/app/user/usecase"
+	"github.com/olivere/elastic/v7"
 	"log"
+	"sync"
 )
 
 // Reference Tutorial:
@@ -24,6 +27,21 @@ import (
 const (
 	region = "us-east-1"
 )
+
+var (
+	once sync.Once
+	conf *config.Config
+	db   *dynamodb.DynamoDB
+	se   *elastic.Client
+)
+
+var (
+	ginLambdaOnce sync.Once
+	ginLambda     *ginadapter.GinLambda
+)
+
+func init() {
+}
 
 type HandlerFunc func(ctx context.Context, req events.APIGatewayProxyRequest) (events.APIGatewayProxyResponse, error)
 
@@ -53,15 +71,37 @@ func newEngine(usecase user.Usecase) *gin.Engine {
 
 func newHandler(usecase user.Usecase) HandlerFunc {
 	return func(ctx context.Context, req events.APIGatewayProxyRequest) (events.APIGatewayProxyResponse, error) {
-		ginLambda := newGinLambdaAdapter(usecase)
+		ginLambdaOnce.Do(func() { // avoid re-initializing the gin adapter in the next invocation.
+			ginLambda = newGinLambdaAdapter(usecase)
+		})
 		return ginLambda.ProxyWithContext(ctx, req)
 	}
 }
 
+func newESClient() *elastic.Client {
+	esClient, err := elastic.NewClient(
+		elastic.SetURL(conf.Elasticsearch.Servers...),
+		elastic.SetSniff(false))
+	if err != nil {
+		log.Fatal(err)
+	}
+	return esClient
+}
+
 func main() {
-	svc := newDynamoDb()
-	userrepo := userdynamo.New(svc)
-	authorrepo := authordynamo.New(svc)
-	uc := usecase.New(userrepo, authorrepo)
+	var err error
+
+	once.Do(func() {
+		conf, err = config.New()
+		if err != nil {
+			log.Fatal(err)
+		}
+		db = newDynamoDb()
+		se = newESClient()
+	})
+	userRepo := userdynamo.New(db)
+	userSearchEngine := usersearches.New(se)
+	authorrepo := authordynamo.New(db)
+	uc := usecase.New(userRepo, authorrepo, userSearchEngine) // duh! Elasticsearch in lambda function??
 	lambda.Start(newHandler(uc))
 }
