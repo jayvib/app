@@ -12,16 +12,24 @@ import (
 	"time"
 )
 
-func New(repo user.Repository, authrepo author.Repository) user.Usecase {
+type Opt struct {
+	Repository       user.Repository
+	AuthorRepository author.Repository
+	SearchEngine     user.SearchEngine
+}
+
+func New(repo user.Repository, authrepo author.Repository, se user.SearchEngine) user.Usecase {
 	return &User{
 		repo:       repo,
 		authorRepo: authrepo,
+		se:         se,
 	}
 }
 
 type User struct {
 	repo       user.Repository
 	authorRepo author.Repository
+	se         user.SearchEngine
 }
 
 func (u *User) GetByID(ctx context.Context, id string) (*model.User, error) {
@@ -105,5 +113,15 @@ func (u *User) Store(ctx context.Context, usr *model.User) error {
 		return err
 	}
 
-	return u.repo.Store(ctx, usr)
+	err = u.repo.Store(ctx, usr)
+	if err != nil {
+		return err
+	}
+
+	err = u.se.Store(ctx, usr)
+	if err != nil {
+		return err
+	}
+
+	return nil
 }

@@ -30,7 +30,7 @@ func TestGetByID(t *testing.T) {
 	t.Run("success", func(t *testing.T) {
 		mockRepo.On("GetByID", mock.Anything, mock.AnythingOfType("string")).
 			Return(mockUser, nil).Once()
-		uc := New(mockRepo, authorMockRepo)
+		uc := New(mockRepo, authorMockRepo, nil)
 		res, err := uc.GetByID(context.Background(), mockUser.ID)
 		require.NoError(t, err)
 		assert.Equal(t, mockUser, res)
@@ -55,7 +55,7 @@ func TestGetByEmail(t *testing.T) {
 		mockRepo.On("GetByEmail", mock.Anything, mock.AnythingOfType("string")).
 			Return(mockUser, nil).Once()
 
-		uc := New(mockRepo, authorMockRepo)
+		uc := New(mockRepo, authorMockRepo, nil)
 		res, err := uc.GetByEmail(context.Background(), mockUser.Email)
 		require.NoError(t, err)
 		assert.Equal(t, mockUser, res)
@@ -70,7 +70,7 @@ func TestGetByUsername(t *testing.T) {
 		mockRepo.On("GetByUsername", mock.Anything, mock.AnythingOfType("string")).
 			Return(mockUser, nil).Once()
 
-		uc := New(mockRepo, authorMockRepo)
+		uc := New(mockRepo, authorMockRepo, nil)
 		res, err := uc.GetByUsername(context.Background(), mockUser.Username)
 		require.NoError(t, err)
 		assert.Equal(t, mockUser, res)
@@ -81,6 +81,7 @@ func TestGetByUsername(t *testing.T) {
 func TestStore(t *testing.T) {
 	repo := new(mocks.Repository)
 	authorMockRepo := new(authormocks.Repository)
+	searchMock := new(mocks.SearchEngine)
 	t.Run("success", func(t *testing.T) {
 		repo.On("Store", mock.Anything, mock.AnythingOfType("*model.User")).
 			Return(nil).Once()
@@ -89,17 +90,21 @@ func TestStore(t *testing.T) {
 		repo.On("GetByEmail", mock.Anything, mock.AnythingOfType("string")).
 			Return(nil, apperr.ItemNotFound)
 
+		searchMock.On("Store", mock.Anything, mock.AnythingOfType("*model.User")).
+			Return(nil).Once()
+
 		authorMockRepo.On("Store", mock.Anything, mock.AnythingOfType("*model.Author")).
 			Return(nil).Once()
 
 		copyUser := *mockUser
-		uc := New(repo, authorMockRepo)
+		uc := New(repo, authorMockRepo, searchMock)
 		err := uc.Store(context.Background(), &copyUser)
 		assert.NotEmpty(t, copyUser.ID)
 		assert.NotEqual(t, mockUser.Password, copyUser.Password,
 			"current: %s got: %s", mockUser.Password, copyUser.Password)
 		require.NoError(t, err)
 		repo.AssertExpectations(t)
+		searchMock.AssertExpectations(t)
 	})
 }
 
@@ -110,7 +115,7 @@ func TestUpdate(t *testing.T) {
 		repo.On("Update", mock.Anything, mock.AnythingOfType("*model.User")).
 			Return(nil).Once()
 		copyUser := &(*mockUser)
-		uc := New(repo, authorMockRepo)
+		uc := New(repo, authorMockRepo, nil)
 		err := uc.Update(context.Background(), copyUser)
 		require.NoError(t, err)
 		repo.AssertExpectations(t)
@@ -123,7 +128,7 @@ func TestDelete(t *testing.T) {
 	t.Run("success", func(t *testing.T) {
 		repo.On("Delete", mock.Anything, mock.AnythingOfType("string")).
 			Return(nil).Once()
-		uc := New(repo, authorMockRepo)
+		uc := New(repo, authorMockRepo, nil)
 		err := uc.Delete(context.Background(), mockUser.ID)
 		require.NoError(t, err)
 		repo.AssertExpectations(t)
