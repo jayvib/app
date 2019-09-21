@@ -61,15 +61,15 @@ engine: mod ## Build the binary file of the project
 	go build -o ${BINARY} .
 
 docker:  ## Build a docker image of the project
-	sudo docker build -t clean-architecture .
+	sudo docker build -t app .
 
 dockerpush: ## Push the docker image to the repository
 	@echo ${NOW}
 	@echo "Setting image tag -> latest ${NOW}"
-	@sudo docker tag clean-architecture jayvib/clean-architecture:latest
-	@sudo docker tag clean-architecture jayvib/clean-architecture:${NOW}
-	@echo "Pushing image 	 -> jayvib/clean-architecture"
-	@sudo docker push jayvib/clean-architecture
+	@sudo docker tag app jayvib/app:latest
+	@sudo docker tag app jayvib/app:${NOW}
+	@echo "Pushing image 	 -> jayvib/app"
+	@sudo docker push jayvib/app
 
 list-targets: ## List the available targets that can be user
 	@echo '#####Makefile Targets######'
