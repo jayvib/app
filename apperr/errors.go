@@ -6,6 +6,9 @@ import (
 	"runtime"
 )
 
+// Blog for error handling:
+// https://commandcenter.blogspot.com/2017/12/error-handling-in-upspin.html
+
 var (
 	ItemNotFound         = errors.New("item not found")
 	ItemExist            = errors.New("item already exist")
