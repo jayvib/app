@@ -19,7 +19,15 @@ services:
         - 9300:9300
         environment:
         - discovery.type=single-node
-
+    kibana:
+        image: kibana:7.3.1
+        container_name: app_kibana
+        ports:
+        - 5601:5601
+        environment:
+        - ELASTICSEARCH_URL=http://localhost:9200
+        depends_on:
+        - elasticsearch
     mysql:
         image: mysql:5.7
         container_name: app_mysql
