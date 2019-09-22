@@ -1,0 +1,24 @@
+{
+  "mappings": {
+    "properties": {
+      "id": {
+        "type": "keyword"
+      },
+      "title": {
+        "type": "text"
+      },
+      "content": {
+        "type": "text"
+      },
+      "author_id": {
+        "type": "keyword"
+      },
+      "created_at": {
+        "type": "date"
+      },
+      "updated_at": {
+        "type": "date"
+      }
+    }
+  }
+}

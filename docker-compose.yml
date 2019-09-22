@@ -8,11 +8,12 @@ services:
         ports:
             - 9090:9090
         depends_on:
-            mysql:
-                condition: service_healthy
-
+            - mysql
+            - elasticsearch
         volumes:
-           - ./config.json:/app/config.json
+           - ./deployments/config.json:/app/config.json
+           - ./deployments/user.json:/app/user.json
+           - ./deployments/article.json:/app/article.json
     elasticsearch:
         image: elasticsearch:7.3.1
         container_name: app_es
@@ -21,15 +22,6 @@ services:
         - 9300:9300
         environment:
         - discovery.type=single-node
-    kibana:
-        image: kibana:7.3.1
-        container_name: app_kibana
-        ports:
-        - 5601:5601
-        environment:
-        - ELASTICSEARCH_URL=http://localhost:9200
-        depends_on:
-        - elasticsearch
     mysql:
         image: mysql:5.7
         container_name: app_mysql
@@ -47,9 +39,3 @@ services:
             test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
             timeout: 5s
             retries: 10
-    adminer:
-        image: adminer
-        container_name: app_sql_admin
-        restart: always
-        ports:
-            - 8080:8080
