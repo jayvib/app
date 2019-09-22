@@ -3,15 +3,15 @@ package main
 import (
 	"database/sql"
 	"fmt"
+	"log"
+	"net/url"
+	"os"
+	"time"
+
 	"github.com/jayvib/app/config"
 	"github.com/jayvib/app/internal/app/search/elasticsearch"
 	jlog "github.com/jayvib/app/log"
 	"github.com/olivere/elastic/v7"
-	"log"
-	"net/url"
-	"os"
-	"path/filepath"
-	"time"
 
 	_ "github.com/go-sql-driver/mysql"
 
@@ -44,14 +44,13 @@ var (
 	// ESIndexMappingFilename consist of index name as a key and
 	// the file path to its equivalent mapping.
 	ESIndexMappingFilename = map[string]string{
-		"user":    filepath.Join("internal", "app", "search", "elasticsearch", "user.json"),
-		"article": filepath.Join("internal", "app", "search", "elasticsearch", "article.json"),
+		"user":    "user.json",
+		"article": "article.json",
 	}
 )
 
 func init() {
 	logrus.Println("Initializing...")
-
 	var err error
 	conf, err = config.New()
 	if err != nil {
@@ -61,6 +60,8 @@ func init() {
 		logrus.SetLevel(logrus.DebugLevel)
 		logrus.AddHook(jlog.NewDebugHook())
 		logrus.Info("Server running on DEBUG mode.")
+	} else {
+		gin.SetMode(gin.ReleaseMode)
 	}
 	Environment = os.Getenv(config.AppEnvironmentKey)
 }
@@ -78,7 +79,6 @@ func main() {
 
 	es = newESClient()
 	createESIndex()
-
 
 	// ###########ROUTER##############
 	e := gin.Default()
