@@ -51,7 +51,6 @@ var (
 
 func init() {
 	logrus.Println("Initializing...")
-
 	var err error
 	conf, err = config.New()
 	if err != nil {
@@ -61,6 +60,8 @@ func init() {
 		logrus.SetLevel(logrus.DebugLevel)
 		logrus.AddHook(jlog.NewDebugHook())
 		logrus.Info("Server running on DEBUG mode.")
+	} else {
+		gin.SetMode(gin.ReleaseMode)
 	}
 	Environment = os.Getenv(config.AppEnvironmentKey)
 }
