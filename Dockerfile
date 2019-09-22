@@ -18,6 +18,7 @@ FROM alpine:latest
 
 RUN apk update && apk upgrade && \
     apk --update --no-cache add tzdata && \
+    apk add --no-cache bash && \
     mkdir /app
 
 WORKDIR /app
