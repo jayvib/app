@@ -11,10 +11,10 @@ services:
             - mysql
             - elasticsearch
         volumes:
-           - ./deployments/config.json:/app/config.json
-           - ./deployments/user.json:/app/user.json
-           - ./deployments/article.json:/app/article.json
-           - ./deployments/wait-for-it.sh:/app/wait-for-it.sh
+           - ./config.json:/app/config.json
+           - ./user.json:/app/user.json
+           - ./article.json:/app/article.json
+           - ./wait-for-it.sh:/app/wait-for-it.sh
         restart: always
     elasticsearch:
         image: elasticsearch:7.3.1
