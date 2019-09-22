@@ -16,16 +16,16 @@ integration-test: preparetest ## Runs integration test only
 	@go test -tags="integration elasticsearch mysql dynamo"-short ./... | grep -v '^?'
 
 start: ## Start the app application
-	docker-compose start
+	docker-compose -f ./deployments/docker-compose.yml start
 
 stop: ## Stop the app application
-	docker-compose stop
+	docker-compose -f ./deployments/docker-compose.yml stop
 
 run: docker ## Build and run the application
-	docker-compose -f docker-compose.yml up -d
+	docker-compose -f ./deployments/docker-compose.yml up -d
 
 teardown:  ## Stop and remove the created containers and images
-	docker-compose -f docker-compose.yml down
+	docker-compose -f ./deployments/docker-compose.yml down
 
 run-development-services: ## Build and run services use for testing.
 	docker-compose -f docker-compose-services.yml up -d

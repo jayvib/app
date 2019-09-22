@@ -1,24 +1,37 @@
-version: "2.3"
+version: "3.7"
 services:
-    clean_architecture:
-        image: clean-architecture:latest
+    app:
+        image: app:latest
         container_name: app_api
+        environment:
+            - APP_ENV=PRODUCTION
         ports:
             - 9090:9090
         depends_on:
-            mysql:
-                condition: service_healthy
-
+            - mysql
+            - elasticsearch
         volumes:
-           - ./config.json:/app/config.json
+           - ./deployments/config.json:/app/config.json
+           - ./deployments/user.json:/app/user.json
+           - ./deployments/article.json:/app/article.json
+           - ./deployments/wait-for-it.sh:/app/wait-for-it.sh
+        restart: always
+    elasticsearch:
+        image: elasticsearch:7.3.1
+        container_name: app_es
+        ports:
+        - 9200:9200
+        - 9300:9300
+        environment:
+        - discovery.type=single-node
     mysql:
         image: mysql:5.7
-        container_name: clean_architecture_mysql
+        container_name: app_mysql
         command: mysqld --user=root
         ports:
             - 3306:3306
         volumes:
-            - ./app.sql:/docker-entrypoint-initdb.d/init.sql
+            - ./deployments/app.sql:/docker-entrypoint-initdb.d/init.sql
         environment:
             - MYSQL_DATABASE=app
             - MYSQL_USER=user
@@ -28,9 +41,3 @@ services:
             test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
             timeout: 5s
             retries: 10
-    adminer:
-        image: adminer
-        container_name: clean_architecture_sql_admin
-        restart: always
-        ports:
-            - 8080:8080
