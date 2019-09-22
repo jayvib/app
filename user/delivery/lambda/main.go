@@ -102,6 +102,14 @@ func main() {
 	userRepo := userdynamo.New(db)
 	userSearchEngine := usersearches.New(se)
 	authorrepo := authordynamo.New(db)
-	uc := usecase.New(userRepo, authorrepo, userSearchEngine) // duh! Elasticsearch in lambda function??
+
+	// duh! Elasticsearch in lambda function??
+	// TODO: Use kinesis to put the data that will be written to
+	// elasticsearch.
+	//
+	// Elasticsearch will be running in EC2 machines under private network
+	// so make sure that the lambda has the VPC-ID in order to access
+	// the EC2 machines.
+	uc := usecase.New(userRepo, authorrepo, userSearchEngine) // this will panic when run in the production
 	lambda.Start(newHandler(uc))
 }
