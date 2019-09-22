@@ -7,7 +7,7 @@ services:
         ports:
             - 3306:3306
         volumes:
-            - ./app.sql:/docker-entrypoint-initdb.d/init.sql
+            - ./deployments/app.sql:/docker-entrypoint-initdb.d/init.sql
 
         network_mode: host
         environment:
