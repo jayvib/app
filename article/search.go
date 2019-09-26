@@ -5,6 +5,7 @@ import (
 	internalsearch "github.com/jayvib/app/internal/app/search"
 )
 
+// Use to create a mock object for the SearchEngine
 //go:generate mockery --name SearchEngine
 
 // SearchEngine represents a search engine.

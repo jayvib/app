@@ -6,8 +6,10 @@ import (
 	"github.com/jayvib/app/model"
 )
 
+// Use to create mock object for the Usecase interface
 //go:generate mockery -name=Usecase
 
+// Usecase represents the core business logic of the application
 type Usecase interface {
 	Fetch(ctx context.Context, cursor string, num int) (ars []*model.Article, nexCursor string, err error)
 	GetByID(ctx context.Context, id string) (ar *model.Article, err error)
