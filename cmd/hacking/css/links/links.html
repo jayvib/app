@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Links</title>
+  <style>
+
+    a#state:link {
+      color: red;
+      text-decoration: none;
+      background-color: yellow;
+    }
+
+    a#state:visited {
+      color: green;
+      text-decoration: none;
+      background-color: cyan;
+    }
+
+    a#state:hover {
+      color: hotpink;
+      text-decoration: underline;
+      background-color: lightgreen;
+    }
+
+    a#state:active {
+      color: blue;
+      text-decoration: underline;
+      background-color: hotpink;
+    }
+
+    a#advance:link, a#advance:visited {
+      background-color: #f44336;
+      color: white;
+      padding: 14px 25px;
+      text-align: center;
+      text-decoration: none;
+      display: inline-block;
+    }
+
+    a#advance:hover, a#advance:active {
+      background-color: red;
+    }
+  </style>
+</head>
+<body>
+  <a href="#">This is a link</a><br>
+  <a id="state" href="#">This is a link with state</a><br>
+  <a id="advance" href="#">This is an advance link</a>
+</body>
+</html>

@@ -20,10 +20,17 @@ func TestListStack(t *testing.T){
 	})
 
 	t.Run("Pop", func(t *testing.T){
-
+		listStack := newEmptyListStack()
+		data := "awesome"
+		listStack.Push(data)
+		data = "day"
+		listStack.Push(data)
+		got := listStack.Pop()
+		want := data
+		assert.Equal(t, want, got)
 	})
 }
 
-func newEmptyListStack() ListStack {
-	return ListStack{l: list.Empty}
+func newEmptyListStack() *ListStack {
+	return &ListStack{l: list.Empty}
 }
