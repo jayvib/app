@@ -4,6 +4,7 @@ go 1.13
 
 require (
 	github.com/DATA-DOG/go-sqlmock v1.3.3
+	github.com/Workiva/go-datastructures v1.0.50
 	github.com/aws/aws-lambda-go v1.13.2
 	github.com/aws/aws-sdk-go v1.23.21
 	github.com/awslabs/aws-lambda-go-api-proxy v0.4.1
