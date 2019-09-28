@@ -23,7 +23,6 @@ type Shape interface {
 type Triangle struct {
 	Base   float64
 	Height float64
-	Shape
 }
 
 func (t Triangle) Area() float64 {
@@ -35,7 +34,6 @@ func (t Triangle) Area() float64 {
 type Rectangle struct {
 	Width  float64
 	Height float64
-	Shape
 }
 
 // Area calculates the area of the rectangle
@@ -50,7 +48,6 @@ func (r Rectangle) Perimeter() float64 {
 // Circle represents a circle.
 type Circle struct {
 	Radius float64
-	Shape
 }
 
 func (c Circle) Perimeter() float64 {
