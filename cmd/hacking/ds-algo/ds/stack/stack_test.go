@@ -6,7 +6,7 @@ import (
 )
 
 func TestContainer(t *testing.T) {
-	spy := &spyList{}
+	spy := &simpleStack{}
 	t.Run("Push", func(t *testing.T) {
 		container := Container{spy}
 		t.Run("pushing string value to the container", func(t *testing.T) {
@@ -27,7 +27,7 @@ func TestContainer(t *testing.T) {
 	})
 
 	t.Run("Pop", func(t *testing.T) {
-		spy := &spyList{list: []interface{}{"awesome"}}
+		spy := &simpleStack{list: []interface{}{"awesome"}}
 		container := Container{list: spy}
 		t.Run("with existing value", func(t *testing.T) {
 			got := container.Pop()
@@ -48,7 +48,7 @@ func TestContainer(t *testing.T) {
 	})
 
 	t.Run("Top", func(t *testing.T) {
-		spy := &spyList{list: []interface{}{
+		spy := &simpleStack{list: []interface{}{
 			"awesome", "day",
 		}}
 		container := Container{spy}
