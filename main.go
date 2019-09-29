@@ -24,6 +24,7 @@ import (
 	userhttp "github.com/jayvib/app/user/delivery/http"
 	userrepo "github.com/jayvib/app/user/repository/mysql"
 	usersearches "github.com/jayvib/app/user/search/elasticsearch"
+	articlesearches "github.com/jayvib/app/article/search/elasticsearch"
 	userusecase "github.com/jayvib/app/user/usecase"
 	"github.com/sirupsen/logrus"
 )
@@ -96,7 +97,8 @@ func main() {
 
 	// ##########Article###########
 	articleRepo := articlerepo.New(db)
-	articleUsecase := articleusecase.New(articleRepo, authorRepo, time.Second*2)
+	articleSE := articlesearches.New(es)
+	articleUsecase := articleusecase.New(articleRepo, authorRepo, articleSE, time.Second*2)
 
 	// Register handlers groups
 	userhttp.RegisterHandlers(conf, api, userUsecase)

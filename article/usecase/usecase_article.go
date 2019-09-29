@@ -13,11 +13,12 @@ import (
 	"github.com/jayvib/app/model"
 )
 
-func New(artr article.Repository, autr author.Repository, duration time.Duration) article.Usecase {
+func New(artr article.Repository, autr author.Repository, se article.SearchEngine, duration time.Duration) article.Usecase {
 	return &articleUsecase{
-		articleRepo:    artr,
-		authorRepo:     autr,
-		contextTimeout: duration,
+		articleRepo:         artr,
+		authorRepo:          autr,
+		articleSearchEngine: se,
+		contextTimeout:      duration,
 	}
 }
 
@@ -29,8 +30,9 @@ type articleUsecase struct {
 	//
 	// Read the "Decoupling the components" section.
 	// https://herbertograca.com/2017/11/16/explicit-architecture-01-ddd-hexagonal-onion-clean-cqrs-how-i-put-it-all-together/
-	authorRepo     author.Repository
-	contextTimeout time.Duration
+	authorRepo          author.Repository
+	articleSearchEngine article.SearchEngine
+	contextTimeout      time.Duration
 }
 
 func (u *articleUsecase) Fetch(ctx context.Context, cursor string, num int) (ars []*model.Article, nexCursor string, err error) {
@@ -173,6 +175,11 @@ func (u *articleUsecase) Store(ctx context.Context, ar *model.Article) error {
 	ar.CreatedAt = time.Now()
 	ar.UpdatedAt = time.Now()
 	err = u.articleRepo.Store(ctx, ar)
+	if err != nil {
+		return err
+	}
+
+	err = u.articleSearchEngine.Store(ctx, ar)
 	if err != nil {
 		return err
 	}

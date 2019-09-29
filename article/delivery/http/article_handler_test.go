@@ -84,7 +84,7 @@ func TestGetByID(t *testing.T) {
 	t.Run("StatusOK", func(t *testing.T) {
 		articleRepo.On("GetByID", mock.Anything, mock.AnythingOfType("string")).Return(mockArticle, nil).Once()
 		authorRepo.On("GetByID", mock.Anything, mock.AnythingOfType("string")).Return(mockAuthor, nil).Once()
-		u := usecase.New(articleRepo, authorRepo, time.Second*2)
+		u := usecase.New(articleRepo, authorRepo, nil,time.Second*2)
 		RegisterHandlers(nil, e, u)
 		w := performRequest(e, http.MethodGet, "/articles/1", nil)
 		assert.Equal(t, http.StatusOK, w.Code)
@@ -127,7 +127,7 @@ func TestGetByIDAuthenticated(t *testing.T) {
 		authorRepo := new(authormocks.Repository)
 		articleRepo.On("GetByID", mock.Anything, mock.AnythingOfType("string")).Return(mockArticle, nil).Once()
 		authorRepo.On("GetByID", mock.Anything, mock.AnythingOfType("string")).Return(mockAuthor, nil).Once()
-		u := usecase.New(articleRepo, authorRepo, time.Second*2)
+		u := usecase.New(articleRepo, authorRepo, nil, time.Second*2)
 		articleHandler := ArticleHandler{AUsecase: u}
 		authapi.GET("/articles/:id", articleHandler.GetByID)
 		setCookieOpt := func(req *http.Request) {
@@ -202,13 +202,18 @@ func TestStore(t *testing.T) {
 	e := gin.Default()
 	articleRepo := new(mocks.Repository)
 	authorRepo := new(authormocks.Repository)
+	mockSearch := new(mocks.SearchEngine)
 	t.Run("StatusOK", func(t *testing.T) {
 		articleRepo.On("Store",
 			mock.Anything, mock.AnythingOfType("*model.Article")).Return(nil).Once()
 		articleRepo.On("GetByTitle",
 			mock.Anything, mock.AnythingOfType("string")).Return(nil, apperrors.ItemNotFound)
+		mockSearch.
+			On("Store", mock.Anything, mock.AnythingOfType("*model.Article")).
+			Return(nil).
+			Once()
 
-		u := usecase.New(articleRepo, authorRepo, time.Second*2)
+		u := usecase.New(articleRepo, authorRepo, mockSearch,time.Second*2)
 		RegisterHandlers(nil, e, u)
 		copyArticle := &(*mockArticle)
 		copyArticle.ID = "unqueid"
@@ -222,6 +227,7 @@ func TestStore(t *testing.T) {
 		assert.NoError(t, err)
 		assert.NotEmpty(t, resArticle.ID)
 		articleRepo.AssertExpectations(t)
+		mockSearch.AssertExpectations(t)
 	})
 	t.Run("Already Exist", func(t *testing.T) {
 		// TODO: Need to implement the test
@@ -244,14 +250,19 @@ func TestStoreAuthenticated(t *testing.T) {
 	require.NoError(t, err)
 	articleRepo := new(mocks.Repository)
 	authorRepo := new(authormocks.Repository)
+	mockSearch := new(mocks.SearchEngine)
 
 	t.Run("Success", func(t *testing.T) {
 		articleRepo.On("Store",
 			mock.Anything, mock.AnythingOfType("*model.Article")).Return(nil).Once()
 		articleRepo.On("GetByTitle",
 			mock.Anything, mock.AnythingOfType("string")).Return(nil, apperrors.ItemNotFound)
+		mockSearch.
+			On("Store", mock.Anything, mock.AnythingOfType("*model.Article")).
+			Return(nil).
+			Once()
 
-		u := usecase.New(articleRepo, authorRepo, time.Second*2)
+		u := usecase.New(articleRepo, authorRepo, mockSearch, time.Second*2)
 		RegisterHandlers(nil, authapi, u)
 		copyArticle := &(*mockArticle)
 		copyArticle.ID = "unqueid"
@@ -284,7 +295,7 @@ func TestUpdate(t *testing.T) {
 		articleRepo.On("Update",
 			mock.Anything, mock.AnythingOfType("*model.Article")).Return(nil).Once()
 
-		u := usecase.New(articleRepo, authorRepo, time.Second*2)
+		u := usecase.New(articleRepo, authorRepo, nil, time.Second*2)
 		RegisterHandlers(nil, e, u)
 		payload, err := json.Marshal(mockArticle)
 		require.NoError(t, err)
@@ -313,7 +324,7 @@ func TestUpdateAuthenticated(t *testing.T) {
 		articleRepo.On("Update",
 			mock.Anything, mock.AnythingOfType("*model.Article")).Return(nil).Once()
 
-		u := usecase.New(articleRepo, authorRepo, time.Second*2)
+		u := usecase.New(articleRepo, authorRepo, nil, time.Second*2)
 		RegisterHandlers(nil, authapi, u)
 		payload, err := json.Marshal(mockArticle)
 		require.NoError(t, err)
@@ -340,7 +351,7 @@ func TestDelete(t *testing.T) {
 			mock.Anything, mock.AnythingOfType("string")).Return(nil).Once()
 		articleRepo.On("GetByID",
 			mock.Anything, mock.AnythingOfType("string")).Return(mockArticle, nil).Once()
-		u := usecase.New(articleRepo, authorRepo, time.Second*2)
+		u := usecase.New(articleRepo, authorRepo, nil, time.Second*2)
 		RegisterHandlers(nil, e, u)
 		w := performRequest(e, http.MethodDelete, "/articles/1", nil)
 		assert.Equal(t, http.StatusOK, w.Code)
@@ -364,7 +375,7 @@ func TestDeleteAuthenticated(t *testing.T) {
 			mock.Anything, mock.AnythingOfType("string")).Return(nil).Once()
 		articleRepo.On("GetByID",
 			mock.Anything, mock.AnythingOfType("string")).Return(mockArticle, nil).Once()
-		u := usecase.New(articleRepo, authorRepo, time.Second*2)
+		u := usecase.New(articleRepo, authorRepo, nil, time.Second*2)
 		RegisterHandlers(nil, authapi, u)
 		w := performRequest(e, http.MethodDelete, "/api/v1/articles/1", nil, setCookieOpt(token))
 		assert.Equal(t, http.StatusOK, w.Code)
@@ -391,7 +402,7 @@ func TestFetch(t *testing.T) {
 		articleRepo.On("Fetch", mock.Anything, cursor, num).Return(mockArticles, "10", nil).Once()
 		authorRepo.On("GetByID", mock.Anything, mock.AnythingOfType("string")).Return(mockAuthor, nil).Once()
 		e := gin.Default()
-		u := usecase.New(articleRepo, authorRepo, time.Second*2)
+		u := usecase.New(articleRepo, authorRepo, nil, time.Second*2)
 		RegisterHandlers(nil, e, u)
 
 		// Perform Request
@@ -427,7 +438,7 @@ func TestFetchAuthenticated(t *testing.T) {
 	t.Run("StatusOK", func(t *testing.T) {
 		articleRepo.On("Fetch", mock.Anything, cursor, num).Return(mockArticles, "10", nil).Once()
 		authorRepo.On("GetByID", mock.Anything, mock.AnythingOfType("string")).Return(mockAuthor, nil).Once()
-		u := usecase.New(articleRepo, authorRepo, time.Second*2)
+		u := usecase.New(articleRepo, authorRepo, nil, time.Second*2)
 		RegisterHandlers(nil, authapi, u)
 
 		// Perform Request
