@@ -13,6 +13,12 @@ import (
 	"github.com/jayvib/app/model"
 )
 
+// TODO: Instead of hardcoding the store and delete inside the store method
+// write a chain of responsibility pattern that will call the callable
+// store func inside the articleUsecase.Store.
+type StoreFunc func(ctx context.Context, a *model.Article) error
+type DeleteFunc func(ctx context.Context, id string) error
+
 func New(artr article.Repository, autr author.Repository, se article.SearchEngine, duration time.Duration) article.Usecase {
 	return &articleUsecase{
 		articleRepo:         artr,
