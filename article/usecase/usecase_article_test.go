@@ -36,7 +36,7 @@ func TestGetByID(t *testing.T) {
 
 		mockAuthorRepo := new(authorMocks.Repository)
 		mockAuthorRepo.On("GetByID", mock.Anything, mock.AnythingOfType("string")).Return(mockAuthor, nil)
-		u := New(mockArticleRepo, mockAuthorRepo, time.Second*2)
+		u := New(mockArticleRepo, mockAuthorRepo, nil, time.Second*2)
 		a, err := u.GetByID(context.Background(), mockArticle.ID)
 		assert.NoError(t, err)
 		assert.NotNil(t, a)
@@ -51,7 +51,7 @@ func TestGetByID(t *testing.T) {
 			Once()
 
 		mockAuthorRepo := new(authorMocks.Repository)
-		u := New(mockArticleRepo, mockAuthorRepo, time.Second*2)
+		u := New(mockArticleRepo, mockAuthorRepo, nil, time.Second*2)
 		a, err := u.GetByID(context.Background(), mockArticle.ID)
 		assert.Error(t, err)
 		assert.Nil(t, a)
@@ -66,6 +66,7 @@ func TestStore(t *testing.T) {
 		Title:   "Pirate King",
 		Content: "Luffy will become the new pirate king",
 	}
+	mockSearch := new(mocks.SearchEngine)
 
 	t.Run("success", func(t *testing.T) {
 		tempMockArticle := &(*mockArticle)
@@ -83,8 +84,14 @@ func TestStore(t *testing.T) {
 			Return(nil).
 			Once()
 
+		mockSearch.
+			On("Store", mock.Anything, mock.AnythingOfType("*model.Article")).
+			Return(nil).
+			Once()
+
+
 		mockAuthorRepo := new(authorMocks.Repository)
-		u := New(mockArticleRepo, mockAuthorRepo, time.Second*2)
+		u := New(mockArticleRepo, mockAuthorRepo, mockSearch, time.Second*2)
 		// Check when the Title and Content has been modified
 		err := u.Store(context.Background(), tempMockArticle)
 		assert.NoError(t, err)
@@ -93,7 +100,9 @@ func TestStore(t *testing.T) {
 		assert.NotEmpty(t, tempMockArticle.CreatedAt)
 		assert.NotEmpty(t, tempMockArticle.UpdatedAt)
 		mockArticleRepo.AssertExpectations(t)
+		mockSearch.AssertExpectations(t)
 	})
+
 
 	t.Run("existing title", func(t *testing.T) {
 		existingArticle := &(*mockArticle)
@@ -107,7 +116,7 @@ func TestStore(t *testing.T) {
 		existingArticle.Author = mockAuthor
 		mockAuthorRepo := new(authorMocks.Repository)
 
-		u := New(mockArticleRepo, mockAuthorRepo, time.Second*2)
+		u := New(mockArticleRepo, mockAuthorRepo, nil, time.Second*2)
 		err := u.Store(context.Background(), existingArticle)
 		assert.Error(t, err)
 		assert.Equal(t, myerr.ItemExist, err)
@@ -131,7 +140,7 @@ func TestUpdate(t *testing.T) {
 			Once()
 
 		mockAuthorRepo := new(authorMocks.Repository)
-		u := New(mockArticleRepo, mockAuthorRepo, time.Second*2)
+		u := New(mockArticleRepo, mockAuthorRepo, nil, time.Second*2)
 		err := u.Update(context.Background(), mockArticle)
 		assert.NoError(t, err)
 		mockArticleRepo.AssertExpectations(t)
@@ -157,7 +166,7 @@ func TestDelete(t *testing.T) {
 			Once()
 
 		mockAuthorRepo := new(authorMocks.Repository)
-		u := New(mockArticleRepo, mockAuthorRepo, time.Second*2)
+		u := New(mockArticleRepo, mockAuthorRepo, nil, time.Second*2)
 		err := u.Delete(context.Background(), mockArticle.ID)
 		assert.NoError(t, err)
 		mockArticleRepo.AssertExpectations(t)
@@ -171,7 +180,7 @@ func TestDelete(t *testing.T) {
 
 		id := "uniqueid"
 		mockAuthorRepo := new(authorMocks.Repository)
-		u := New(mockArticleRepo, mockAuthorRepo, time.Second*2)
+		u := New(mockArticleRepo, mockAuthorRepo, nil, time.Second*2)
 		err := u.Delete(context.Background(), id)
 		assert.Error(t, err)
 		assert.Equal(t, err, myerr.ItemNotFound)
@@ -209,7 +218,7 @@ func TestFetch(t *testing.T) {
 			Return(mockAuthor, nil).
 			Once()
 
-		u := New(mockArticleRepo, mockAuthorRepo, time.Second*2)
+		u := New(mockArticleRepo, mockAuthorRepo, nil, time.Second*2)
 		num := 1
 		cursor := "12"
 		expectedCursor := "next-cursor"
@@ -229,7 +238,7 @@ func TestFetch(t *testing.T) {
 			Once()
 
 		mockAuthorRepo := new(authorMocks.Repository)
-		u := New(mockArticleRepo, mockAuthorRepo, time.Second*2)
+		u := New(mockArticleRepo, mockAuthorRepo, nil, time.Second*2)
 		num := 1
 		cursor := "12"
 		res, nextCursor, err := u.Fetch(context.Background(), cursor, num)

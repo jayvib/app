@@ -10,10 +10,13 @@ import (
 	"github.com/jayvib/app/config"
 	internalsearch "github.com/jayvib/app/internal/app/search"
 	"github.com/jayvib/app/internal/app/search/elasticsearch/testutil"
+	"github.com/jayvib/app/log"
 	"github.com/jayvib/app/model"
+	"github.com/jayvib/app/utils/generateutil"
 	"github.com/olivere/elastic/v7"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
+	"io/ioutil"
 	"os"
 	"path/filepath"
 	"testing"
@@ -29,6 +32,7 @@ const (
 // For safety purpose. Do this when doing integration test.
 func init() {
 	os.Setenv(config.AppEnvironmentKey, config.DevelopmentEnv)
+	log.SetOutput(ioutil.Discard)
 }
 
 func TestSearch(t *testing.T) {
@@ -108,6 +112,34 @@ func TestSearch(t *testing.T) {
 			c.assertResult(t, result)
 		})
 	}
+}
+
+func TestStore(t *testing.T) {
+	es := articlesearches.New(client)
+	input := &model.Article{
+		ID: generateutil.GenerateID("article"),
+		Title: "Testing Article",
+		Content: "For test only",
+	}
+	err := es.Store(context.Background(), input)
+	require.NoError(t, err)
+	assertArticle(t, input, input.ID)
+}
+
+func assertArticle(t *testing.T, want *model.Article, id string) {
+	res, err := client.Get().Index(model.GetArticleTableName()).Id(id).Do(context.Background())
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	var got model.Article
+	err = json.Unmarshal(res.Source, &got)
+	if err != nil {
+		t.Fatal(err)
+	}
+	assert.Equal(t, want.Title, got.Title)
+	assert.Equal(t, want.Content, got.Content)
+	t.Helper()
 }
 
 func TestMain(m *testing.M) {

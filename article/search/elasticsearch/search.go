@@ -43,6 +43,14 @@ type Search struct {
 	client    *elastic.Client
 }
 
+func (s *Search) Store(ctx context.Context, a *model.Article) error {
+	_, err := s.client.Index().Index(model.GetArticleTableName()).Id(a.ID).BodyJson(a).Do(ctx)
+	if err != nil {
+		return apperr.New(apperr.InternalError, "error while indexing", err)
+	}
+	return nil
+}
+
 func (s *Search) Search(ctx context.Context, input internalsearch.Input) (result *internalsearch.Result, err error) {
 	if err := s.validator.Struct(input); err != nil {
 		if validator.IsValidationErr(err) {
