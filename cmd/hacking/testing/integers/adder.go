@@ -15,13 +15,13 @@ const (
 
 func NewBadParameter(t string, orig error) BadParameter {
 	return BadParameter{
-		Type: t,
+		Type:    t,
 		origErr: orig,
 	}
 }
 
 type BadParameter struct {
-	Type string
+	Type    string
 	origErr error
 }
 
@@ -41,14 +41,13 @@ func Add(x, y int) (int, error) {
 	return x + y, nil
 }
 
-
 func isOddParam(x, y int) bool {
-		if x % 2 != 0 {
+	if x%2 != 0 {
 		return true
 	}
 
-	if y & 2 != 0 {
+	if y%2 != 0 {
 		return true
 	}
-		return false
+	return false
 }

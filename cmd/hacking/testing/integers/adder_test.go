@@ -3,12 +3,14 @@ package integers
 import (
 	"errors"
 	"fmt"
+	"github.com/stretchr/testify/assert"
 	"testing"
 )
 
 func TestAdder(t *testing.T) {
 	t.Run("add even ", func(t *testing.T) {
-		got, _ := Add(2, 2)
+		got, err := Add(2, 2)
+		assert.NoError(t, err)
 		assertSum(t, got, 4)
 	})
 
