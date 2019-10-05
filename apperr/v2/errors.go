@@ -4,8 +4,6 @@ import (
 	"strings"
 )
 
-// apperr replicate the error handling of upspin.io
-
 var Separator = "\n\t"
 
 type Op string
