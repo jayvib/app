@@ -1,4 +1,5 @@
 .idea/
 *.linux
+*.zip
 
 vendor/
