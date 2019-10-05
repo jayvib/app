@@ -10,8 +10,8 @@ type Op string
 
 type Kind uint8
 
-func(k Kind) String() string {
-	switch  k {
+func (k Kind) String() string {
+	switch k {
 	case IO:
 		return "I/O error"
 	case Other:
@@ -30,8 +30,8 @@ const (
 
 // Error is a custom error used throughout the application.
 type Error struct {
-	Err error
-	Op  Op
+	Err  error
+	Op   Op
 	Kind Kind
 }
 
@@ -76,7 +76,7 @@ func (e Error) isZero() bool {
 func isEmpty(t interface{}) bool {
 	const (
 		emptyString = ""
-		emptyKind = 0
+		emptyKind   = 0
 	)
 	switch v := t.(type) {
 	case Op:
