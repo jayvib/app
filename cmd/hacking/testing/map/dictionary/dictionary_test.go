@@ -14,8 +14,14 @@ func TestSearch(t *testing.T) {
 	})
 
 	t.Run("unknown word", func(t *testing.T){
-		_, err := dictionary.Search("unknown")
-		assertError(t, err, ErrNotFound)
+		_, got := dictionary.Search("unknown")
+		if assert.IsType(t, Err{}, got) {
+			e := got.(Err)
+			assert.Equal(t, WordNotExist, e.t)
+			assert.Equal(t, Op("dictionary/Dictionary.Search"), e.operation)
+			want := Err{t: WordNotExist, operation: Op("dictionary/Dictionary.Search")}
+			assertError(t, want, got)
+		}
 	})
 }
 
@@ -32,16 +38,47 @@ func TestAdd(t *testing.T) {
 		key := "test"
 		want := "this is just a test"
 		dictionary := Dictionary{key: want}
-		err := dictionary.Add(key, want)
+		got := dictionary.Add(key, want)
 		assertDefinition(t, dictionary, key, want)
-		if assert.IsType(t, Err{}, err) {
-			e := err.(Err)
-			assert.Equal(t, WordExist, e.t)
-			assert.Equal(t, Op("Dictionary.Add"), e.operation)
-			t.Log(e.Error())
+		if assert.IsType(t, Err{}, got) {
+			wantErr := Err{WordExist, Op("dictionary/Dictionary.Add"), ErrWordExist}
+			assertError(t, wantErr, got)
 		}
 	})
+}
 
+func TestUpdate(t *testing.T) {
+	t.Run("word exists", func(t *testing.T){
+		word := "test"
+		definition := "this is just a test"
+		dictionary := Dictionary{word: definition}
+		newDefinition := "new definition"
+		dictionary.Update(word, newDefinition)
+		assertDefinition(t, dictionary, word, newDefinition)
+	})
+
+	t.Run("word not exists", func(t *testing.T){
+		word := "test"
+		definition := "this is just a test"
+		dictionary := Dictionary{}
+		got := dictionary.Update(word, definition)
+		if assert.IsType(t, Err{}, got) {
+			wantErr := Err{WordNotExist, Op("dictionary/Dictionary.Update"), ErrNotFound}
+			assertError(t, wantErr, got)
+		}
+	})
+}
+
+func TestDelete(t *testing.T) {
+	word := "test"
+	dictionary := Dictionary{word: "test definition"}
+	dictionary.Delete(word)
+
+	_, err := dictionary.Search(word)
+	if assert.IsType(t, Err{}, err) {
+		wantErr := Err{t: WordNotExist, operation: Op("dictionary/Dictionary.Search")}
+		assertError(t, wantErr, err)
+	}
 }
 
 func assertDefinition(t *testing.T, d Dictionary, key, want string) {
@@ -66,8 +103,18 @@ func assertString(t *testing.T, got, want string) {
 
 func assertError(t *testing.T, got, want error) {
 	t.Helper()
-	if got != want {
-		t.Errorf("expecting error '%v' got '%v'", want, got)
+	switch g := got.(type) {
+	case Err:
+		w, ok := want.(Err)
+		if !ok {
+			t.Errorf("expecting error '%v' got '%v'", w, g)
+		}
+		assert.Equal(t, w.operation, g.operation)
+		assert.Equal(t, w.t, g.t)
+	default:
+		if got != want {
+			t.Errorf("expecting error '%v' got '%v'", want, got)
+		}
 	}
 }
 
