@@ -22,7 +22,13 @@ func main() {
 	cause := errors.Cause(err4)
 
 	if e.Is(cause, GetErr{}) {
-		fmt.Println("yaykksss this is an GetErr type... yohoooo")
+		fmt.Println("yaykksss this is an GetErr type... yohoooo using Cause")
+		fmt.Println(cause)
+	}
+
+	cause2 := e.Unwrap(err4)
+	if e.Is(cause2, GetErr{}) {
+		fmt.Println("yaykksss this is an GetErr type... yohoooo using Unwrap")
 		fmt.Println(cause)
 	}
 	fmt.Println(err4)

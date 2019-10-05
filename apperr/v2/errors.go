@@ -65,6 +65,10 @@ func (e Error) Cause() error {
 	return e.Err
 }
 
+func (e Error) Unwrap() error {
+	return e.Err
+}
+
 func (e Error) isZero() bool {
 	return isEmpty(e.Op) && isEmpty(e.Kind) && isEmpty(e.Err)
 }
