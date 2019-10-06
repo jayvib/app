@@ -1,4 +1,5 @@
 BINARY="engine.linux"
+FRONTEND_BINARY="front-end.linux"
 NOW=`date +'%y%m%d%H%M%S'`
 
 ################TARGETS##################
@@ -116,6 +117,13 @@ install-protobuf-compiler: ## Installing the protocol buffers compiler
 		make check && \
 		sudo make install && \
 		sudo ldconfig
+
+front-end:
+	@mkdir -p ./bin
+	go build -o ./bin/${FRONTEND_BINARY} ./cmd/app-front-end/
+
+front-end-docker:
+	sudo docker build -t app-front-end -f ./deployments/dockerfiles/frontend.dockerfile .
 
 .PHONY: test unittest integrationtest \
 		start stop run teardown runtestservice \
