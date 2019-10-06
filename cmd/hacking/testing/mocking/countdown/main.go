@@ -9,17 +9,20 @@ import (
 
 const (
 	countdownStart = 3
-	finalWord = "Go!"
+	finalWord      = "Go!"
 )
-
-type DefaultSleeper struct {}
-
-func (DefaultSleeper) Sleep() {
-	time.Sleep(1 * time.Second)
-}
 
 type Sleeper interface {
 	Sleep()
+}
+
+type ConfigurableSleeper struct {
+	duration time.Duration
+	sleep    func(duration time.Duration)
+}
+
+func (c *ConfigurableSleeper) Sleep() {
+	c.sleep(c.duration)
 }
 
 func Countdown(w io.Writer, sleeper Sleeper) {
@@ -27,10 +30,15 @@ func Countdown(w io.Writer, sleeper Sleeper) {
 		sleeper.Sleep()
 		fmt.Fprintf(w, "%d\n", i)
 	}
+
 	sleeper.Sleep()
 	fmt.Fprintf(w, finalWord)
 }
 
 func main() {
-	Countdown(os.Stdout, DefaultSleeper{})
+	configSleeper := &ConfigurableSleeper{
+		duration: 1 * time.Second,
+		sleep: time.Sleep,
+	}
+	Countdown(os.Stdout, configSleeper)
 }
