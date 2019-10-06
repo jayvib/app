@@ -2,6 +2,8 @@ package main
 
 import (
 	"github.com/gin-gonic/gin"
+	userhttp "github.com/jayvib/app/user/delivery/http"
+	"log"
 	"net/http"
 )
 
@@ -11,12 +13,18 @@ func init() {
 
 func main() {
 	router := gin.Default()
-	router.LoadHTMLGlob("web/app/**/*.tmpl")
+	router.StaticFS("/assets", gin.Dir("web/app/assets", false))
+	router.LoadHTMLGlob("web/app/templates/**/*.tmpl")
 	router.GET("/", func(c *gin.Context){
-		c.HTML(http.StatusOK, "index.tmpl", gin.H{
+		c.HTML(http.StatusOK, "index", gin.H{
 			"title": "App",
 			"message": "Welcome to App!",
 		})
 	})
-	router.Run(":8080")
+
+	userhttp.RegisterViewHandlers(router)
+
+	if err := router.Run(":8080"); err != nil {
+		log.Fatal(err)
+	}
 }

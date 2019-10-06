@@ -5,8 +5,12 @@ import (
 	"net/http"
 )
 
+func RegisterViewHandlers(e *gin.Engine) {
+	e.GET("/user/login", LoginPage)
+}
+
 func LoginPage(c *gin.Context) {
-	c.HTML(http.StatusOK, "user/login", gin.H{
+	c.HTML(http.StatusOK, "user/index", gin.H{
 		"title": "Login",
 	})
 }
