@@ -1,13 +1,51 @@
 {{ define "user/login" }}
-    <form action="#" method="POST" style="width:25%;">
-      <fieldset>
-        <legend>Login:</legend>
-        Username:<br>
-        <input type="text" name="username"><br>
-        Password:<br>
-        <input type="password" name="password">
-        <br><br>
-        <input type="submit" value="Login">
-      </fieldset>
-    </form>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>{{.title}}</title>
+</head>
+<body>
+<form action="#" method="POST" style="width:25%;">
+  <fieldset>
+    <legend>Login:</legend>
+    Username:<br>
+    <input type="text" name="username"><br>
+    Password:<br>
+    <input type="password" name="password">
+    <br><br>
+    <input type="submit" value="Login">
+  </fieldset>
+</form>
+</body>
+</html>
+{{ end }}
+
+{{ define "user/new" }}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>{{.title}}</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" type="text/css" href="/assets/css/user.css">
+</head>
+<body>
+<form action="#" method="POST">
+  <fieldset>
+    <legend>Personal Information:</legend>
+    First name:<br>
+    <input type="text" name="firstname"><br>
+    Last name:<br>
+    <input type="text" name="firstname"><br>
+    Username:<br>
+    <input type="text" name="username"><br>
+    Password:<br>
+    <input type="password" name="password">
+    <br><br>
+    <input type="submit" value="Login">
+  </fieldset>
+</form>
+</body>
+</html>
 {{ end }}

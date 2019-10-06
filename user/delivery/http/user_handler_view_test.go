@@ -16,3 +16,13 @@ func TestLoginPage(t *testing.T) {
 		t.Error("expecting word 'Username' but nothing found")
 	}
 }
+
+func TestRegisterNewUserPage(t *testing.T) {
+	e := gin.Default()
+	e.LoadHTMLGlob("../../../web/app/templates/**/*.tmpl")
+	e.GET("/user/new", RegisterNewUserPage)
+	w := performRequest(e, http.MethodGet,"/user/new", nil)
+	if !strings.Contains(w.Body.String(), "Username") {
+		t.Error("expecting word 'Username' but nothing found")
+	}
+}
