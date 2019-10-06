@@ -44,7 +44,7 @@ type UserHandler struct {
 
 type RequestError struct {
 	Msg        string `json:"msg,omitempty"`
-	Parameters map[string]string
+	Parameters map[string]string `json:"parameters,omitempty"`
 }
 
 func (h *UserHandler) GetByID(c *gin.Context) {
