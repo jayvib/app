@@ -26,3 +26,7 @@ func TestRegisterNewUserPage(t *testing.T) {
 		t.Error("expecting word 'Username' but nothing found")
 	}
 }
+
+func TestRegisterNewUserRequest(t *testing.T) {
+
+}
