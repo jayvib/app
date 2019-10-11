@@ -100,6 +100,17 @@ func (l *DoublyLinkedList) RemoveNode(key int) bool {
 	return false
 }
 
+func (l *DoublyLinkedList) IsPresent(key int) bool {
+	temp := l.head
+	for temp != nil {
+		if temp.value == key {
+			return true
+		}
+		temp = temp.next
+	}
+	return false
+}
+
 func main() {
 	dlist := new(DoublyLinkedList)
 	dlist.AddHead(1)
