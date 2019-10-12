@@ -3,6 +3,7 @@ package dictionary
 import (
 	"errors"
 	"fmt"
+	"sync"
 )
 
 var (
@@ -54,29 +55,41 @@ func (e Err) Error() string {
 
 }
 
-// Dictionary is a key-value type look-up object.
-type Dictionary map[string]string
+func New() *Dictionary {
+	return &Dictionary{
+		dictionary: make(map[string]string),
+	}
+}
 
-// Search searches for key in the dictionary and returns
+// Dictionary is a key-value type look-up object.
+type Dictionary struct {
+	// mu protects dictionary
+	mu         sync.RWMutex
+	dictionary map[string]string
+}
+
+// Search searches for key in the dictionary and return
 // its equivalent definition if found.
-func (d Dictionary) Search(key string) (definition string, err error) {
+func (d *Dictionary) Search(key string) (definition string, err error) {
 	const op Op = "dictionary/Dictionary.Search"
 	var ok bool
-	definition, ok = d[key]
+	d.mu.RLock()
+	defer d.mu.RUnlock()
+	definition, ok = d.dictionary[key]
 	if !ok {
 		return "", Err{operation: op, t: WordNotExist, origErr: ErrNotFound}
 	}
 	return
 }
 
-func (d Dictionary) Add(key, definition string) error {
+func (d *Dictionary) Add(key, definition string) error {
 	const op Op = "dictionary/Dictionary.Add"
 	_, err := d.Search(key)
 	switch v := err.(type) {
 	case Err:
 		switch v.t {
 		case WordNotExist:
-			d[key] = definition
+			d.dictionary[key] = definition
 		default:
 			return Err{operation: op, t: v.t, origErr: v}
 		}
@@ -88,12 +101,14 @@ func (d Dictionary) Add(key, definition string) error {
 	return nil
 }
 
-func (d Dictionary) Update(key, definition string) error {
+func (d *Dictionary) Update(key, definition string) error {
 	const op Op = "dictionary/Dictionary.Update"
 	_, err := d.Search(key)
 	switch v := err.(type) {
 	case nil:
-		d[key] = definition
+		d.mu.Lock()
+		d.dictionary[key] = definition
+		d.mu.Unlock()
 	case Err:
 		switch v.t {
 		case WordNotExist:
@@ -108,6 +123,6 @@ func (d Dictionary) Update(key, definition string) error {
 	return nil
 }
 
-func (d Dictionary) Delete(key string) {
-	delete(d, key)
+func (d *Dictionary) Delete(key string) {
+	delete(d.dictionary, key)
 }
