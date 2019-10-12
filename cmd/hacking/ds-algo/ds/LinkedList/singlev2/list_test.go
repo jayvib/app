@@ -1,7 +1,6 @@
 package singlev2
 
 import (
-	"fmt"
 	"github.com/stretchr/testify/assert"
 	"testing"
 )
@@ -67,15 +66,28 @@ func TestList_AddTail(t *testing.T) {
 		l.AddTail(5)
 
 		want := &Node{value: 5}
-		var got *Node
-
-		curr := l.head
-		for curr.next != nil {
-			curr = curr.next
-			fmt.Println("finding tail...current:", curr.value)
-		}
-
+		got := l.tail
 
 		assert.Equal(t, want, got)
 	})
+}
+
+func TestList_SortedInsert(t *testing.T){
+	l := &List{}
+	l.AddHead(1)
+	l.AddHead(3)
+
+	l.SortedInsert(2)
+
+	want := &Node{value: 2}
+	var got *Node
+	curr := l.head
+	for curr.next != nil {
+		if curr.value == want.value {
+			got = curr
+			break
+		}
+		curr = curr.next
+	}
+	assert.Equal(t, want.value, got.value)
 }
