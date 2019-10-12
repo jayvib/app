@@ -2,7 +2,6 @@ package main
 
 import (
 	"github.com/gin-gonic/gin"
-	userhttp "github.com/jayvib/app/user/delivery/http"
 	"log"
 	"net/http"
 )
@@ -22,7 +21,6 @@ func main() {
 		})
 	})
 
-	userhttp.RegisterViewHandlers(router)
 
 	if err := router.Run(":8080"); err != nil {
 		log.Fatal(err)

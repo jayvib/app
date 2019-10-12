@@ -20,13 +20,6 @@ services:
             timeout: 5s
             retries: 10
 
-    dynamo:
-        image: amazon/dynamodb-local
-        container_name: app_dynamo_test
-        ports:
-           - 8000:8000
-        network_mode: host
-
     elasticsearch:
         image: elasticsearch:7.3.1
         container_name: app_es_test
