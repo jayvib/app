@@ -5,6 +5,10 @@ import (
 	"net/http"
 )
 
+func NewInMemoryStore() *InMemoryStore {
+	return &InMemoryStore{score: make(map[string]int)}
+}
+
 type InMemoryStore struct {
 	score map[string]int
 }
@@ -22,12 +26,7 @@ func (s *InMemoryStore) RecordWin(player string) {
 }
 
 func main() {
-	store := &InMemoryStore{
-		score: map[string]int{
-			"Luffy": 20,
-			"Sanji": 10,
-		},
-	}
+	store := NewInMemoryStore()
 	svr := &PlayerServer{store:store}
 	if err := http.ListenAndServe(":5000", svr); err != nil {
 		log.Fatalf("could not listen on port 5000 %v", err)

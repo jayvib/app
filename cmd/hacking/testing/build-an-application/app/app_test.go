@@ -20,7 +20,7 @@ func TestGETPlayers(t *testing.T) {
 		request := newScoreGetRequest("Pepper")
 		response := httptest.NewRecorder()
 		svr.ServeHTTP(response, request)
-		assertResponseBody(t, response, "20")
+		assertScore(t, response, "20")
 		assertStatusCode(t, response, http.StatusOK)
 	})
 
@@ -28,7 +28,7 @@ func TestGETPlayers(t *testing.T) {
 		request := newScoreGetRequest("Floyd")
 		response := httptest.NewRecorder()
 		svr.ServeHTTP(response, request)
-		assertResponseBody(t, response, "10")
+		assertScore(t, response, "10")
 		assertStatusCode(t, response, http.StatusOK)
 	})
 
@@ -76,7 +76,7 @@ func assertStatusCode(t *testing.T, response *httptest.ResponseRecorder, want in
 	}
 }
 
-func assertResponseBody(t *testing.T, response *httptest.ResponseRecorder, want string) {
+func assertScore(t *testing.T, response *httptest.ResponseRecorder, want string) {
 	t.Helper()
 	got := response.Body.String()
 	if got != want {
