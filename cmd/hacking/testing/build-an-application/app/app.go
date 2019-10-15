@@ -10,11 +10,28 @@ type PlayerStore interface {
 	RecordWin(player string)
 }
 
-type PlayerServer struct {
-	store PlayerStore
+func NewPlayerServer(store PlayerStore) *PlayerServer {
+	svr := &PlayerServer{
+		store: store,
+	}
+
+	router := http.NewServeMux()
+	router.HandleFunc("/league", svr.leagueHandler)
+	router.HandleFunc("/players/", svr.playerHandler)
+	svr.Handler = router
+	return svr
 }
 
-func (s *PlayerServer) ServeHTTP(w http.ResponseWriter, r *http.Request) {
+type PlayerServer struct {
+	store PlayerStore
+	http.Handler
+}
+
+func (s *PlayerServer) leagueHandler(w http.ResponseWriter, r *http.Request) {
+	w.WriteHeader(http.StatusOK)
+}
+
+func (s *PlayerServer) playerHandler(w http.ResponseWriter, r *http.Request) {
 	player := getPlayer(r)
 	switch r.Method {
 	case http.MethodGet:
@@ -22,8 +39,6 @@ func (s *PlayerServer) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 	case http.MethodPost:
 		s.processWin(w, player)
 	}
-
-	return
 }
 
 func (s *PlayerServer) showScore(w http.ResponseWriter, player string) {

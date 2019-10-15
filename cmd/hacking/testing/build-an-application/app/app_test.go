@@ -15,7 +15,7 @@ func TestGETPlayers(t *testing.T) {
 			"Floyd": 10,
 		},
 	}
-	svr := &PlayerServer{store: store}
+	svr := NewPlayerServer(store)
 	t.Run("returns Pepper's score", func(t *testing.T){
 		request := newScoreGetRequest("Pepper")
 		response := httptest.NewRecorder()
@@ -45,7 +45,7 @@ func TestStoreWins(t *testing.T){
 		store := &StubPlayerStore{
 			scores: make(map[string]int),
 		}
-		svr := &PlayerServer{store:store}
+		svr := NewPlayerServer(store)
 		response := httptest.NewRecorder()
 		request := newWinPostRequest("Pepper", nil)
 		svr.ServeHTTP(response, request)
@@ -56,7 +56,7 @@ func TestStoreWins(t *testing.T){
 		store := &StubPlayerStore{
 			scores: make(map[string]int),
 		}
-		svr := &PlayerServer{store:store}
+		svr := NewPlayerServer(store)
 		response := httptest.NewRecorder()
 		request := newWinPostRequest("Pepper", nil)
 		svr.ServeHTTP(response, request)
@@ -67,6 +67,20 @@ func TestStoreWins(t *testing.T){
 		if store.winCalls[0] != "Pepper"  {
 			t.Errorf("expecting Pepper but found %s", store.winCalls[0])
 		}
+	})
+}
+
+func TestLeague(t *testing.T) {
+	store := &StubPlayerStore{
+		scores: make(map[string]int),
+	}
+	server := NewPlayerServer(store)
+	t.Run("it returns 200 on /league", func(t *testing.T){
+		request := httptest.NewRequest(http.MethodGet, "/league", nil)
+		response := httptest.NewRecorder()
+
+		server.ServeHTTP(response, request)
+		assertStatusCode(t, response, http.StatusOK)
 	})
 }
 
