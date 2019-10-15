@@ -8,12 +8,6 @@ import (
 
 const jsonContentType = "application/json"
 
-type PlayerStore interface {
-	GetPlayerScore(player string) int
-	RecordWin(player string)
-	GetLeague() []Player
-}
-
 type Player struct {
 	Name string
 	Wins int
