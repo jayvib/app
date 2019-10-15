@@ -1,10 +1,12 @@
 package main
 
 import (
+	"encoding/json"
 	"fmt"
 	"io"
 	"net/http"
 	"net/http/httptest"
+	"reflect"
 	"testing"
 )
 
@@ -71,20 +73,66 @@ func TestStoreWins(t *testing.T){
 }
 
 func TestLeague(t *testing.T) {
-	store := &StubPlayerStore{
-		scores: make(map[string]int),
-	}
-	server := NewPlayerServer(store)
 	t.Run("it returns 200 on /league", func(t *testing.T){
-		request := httptest.NewRequest(http.MethodGet, "/league", nil)
+		store := &StubPlayerStore{
+			scores: make(map[string]int),
+		}
+		server := NewPlayerServer(store)
+		request := newLeagueRequest()
 		response := httptest.NewRecorder()
 
 		server.ServeHTTP(response, request)
 		assertStatusCode(t, response, http.StatusOK)
 	})
+
+	t.Run("returns a league table as JSON", func(t *testing.T){
+		league := []Player{
+			{"Luffy", 10},
+			{"Sanji", 11},
+			{"Zoro", 12},
+		}
+
+		store := &StubPlayerStore{
+			scores: make(map[string]int),
+			league: league,
+		}
+		server := NewPlayerServer(store)
+		request := newLeagueRequest()
+		response := httptest.NewRecorder()
+		server.ServeHTTP(response, request)
+
+		assertStatusCode(t, response, http.StatusOK)
+		assertLeague(t, response, league)
+		assertContentType(t, response, jsonContentType)
+	})
+}
+
+func newLeagueRequest() *http.Request {
+	return httptest.NewRequest(http.MethodGet, "/league", nil)
+}
+
+func assertContentType(t *testing.T, response *httptest.ResponseRecorder, want string) {
+	t.Helper()
+	contentType := response.Header().Get("Content-Type")
+	if contentType != jsonContentType {
+		t.Errorf("want '%s' got '%s'", "application/json", contentType)
+	}
+}
+
+func assertLeague(t *testing.T, response *httptest.ResponseRecorder, want []Player) {
+	t.Helper()
+	var got []Player
+	err := json.NewDecoder(response.Body).Decode(&got)
+	if err != nil {
+		t.Fatal(err)
+	}
+	if !reflect.DeepEqual(want, got) {
+		t.Errorf("want '%v' got '%v'", want, got)
+	}
 }
 
 func assertStatusCode(t *testing.T, response *httptest.ResponseRecorder, want int) {
+	t.Helper()
 	if response.Code != want {
 		t.Errorf("expecting status code '%d' but got '%d'", want, response.Code)
 	}
@@ -111,6 +159,7 @@ func newScoreGetRequest(player string) *http.Request {
 type StubPlayerStore struct {
 	scores map[string]int
 	winCalls []string
+	league []Player
 }
 
 func (s *StubPlayerStore) GetPlayerScore(player string) int {
@@ -123,4 +172,8 @@ func (s *StubPlayerStore) GetPlayerScore(player string) int {
 
 func (s *StubPlayerStore) RecordWin(player string) {
 	s.winCalls = append(s.winCalls, player)
+}
+
+func (s *StubPlayerStore) GetLeague() []Player {
+	return s.league
 }
