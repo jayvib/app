@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"io"
 	"log"
+	"os"
 )
 
 type PlayerStore interface {
@@ -41,14 +42,22 @@ func (s *InMemoryStore) GetLeague() League {
 	return league
 }
 
+func NewFileSystemPlayerStore(database *os.File) *FileSystemPlayerStore {
+	database.Seek(0, io.SeekStart)
+	league, _ := NewLeague(database)
+	return &FileSystemPlayerStore{
+		database: json.NewEncoder(&tape{database}),
+		league:   league,
+	}
+}
+
 type FileSystemPlayerStore struct {
-	database io.ReadWriteSeeker
+	database *json.Encoder
+	league   League
 }
 
 func (f *FileSystemPlayerStore) GetLeague() (league League) {
-	f.database.Seek(0, io.SeekStart)
-	league, _ = NewLeague(f.database)
-	return
+	return f.league
 }
 
 func (f *FileSystemPlayerStore) GetPlayerScore(name string) int {
@@ -60,16 +69,14 @@ func (f *FileSystemPlayerStore) GetPlayerScore(name string) int {
 }
 
 func (f *FileSystemPlayerStore) RecordWin(name string) {
-	league := f.GetLeague()
-	player := league.Find(name)
+	player := f.league.Find(name)
 	if player != nil {
 		player.Wins++
-	 } else {
-	 	league = append(league, Player{Name: name, Wins: 1})
+	} else {
+		f.league = append(f.league, Player{Name: name, Wins: 1})
 	}
 
-	f.database.Seek(0, io.SeekStart)
-	err := json.NewEncoder(f.database).Encode(league)
+	err := f.database.Encode(f.league)
 	if err != nil {
 		log.Println(err)
 	}

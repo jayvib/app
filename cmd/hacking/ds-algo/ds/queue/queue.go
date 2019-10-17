@@ -19,7 +19,7 @@ type Person struct {
 }
 
 func main() {
-	q := generateInt(1000)
+	q := generateInt(100)
 
 	var wg sync.WaitGroup
 	workers := 10
@@ -32,13 +32,16 @@ func main() {
 	}
 
 	wg.Wait()
+	q.Put("woiejfoijewofow")
+	items := q.Dispose()
+	fmt.Println(len(items))
 }
 
 func sink(q *queue.Queue, id int) {
 	batch := 0
 	for {
 		batch++
-		val, err := q.Poll(5, time.Second)
+		val, err := q.Poll(5, 5 * time.Second)
 		if err != nil {
 			fmt.Println(err)
 			return

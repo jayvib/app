@@ -14,7 +14,7 @@ func TestFileSystemStore(t *testing.T) {
 	database, teardown := createTempFile(t, initialData)
 	defer teardown()
 
-	store := &FileSystemPlayerStore{database}
+	store := NewFileSystemPlayerStore(database)
 
 	t.Run("league from a reader", func(t *testing.T) {
 		want := League{
@@ -49,7 +49,7 @@ func TestFileSystemStore(t *testing.T) {
 		{"Name": "Guko", "Wins": 10},
 		{"Name": "Vegita", "Wins": 20]`)
 		defer teardown()
-		store := &FileSystemPlayerStore{database:database}
+		store := NewFileSystemPlayerStore(database)
 
 		name := "Luffy"
 		store.RecordWin(name)
