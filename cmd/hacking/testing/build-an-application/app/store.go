@@ -42,13 +42,35 @@ func (s *InMemoryStore) GetLeague() League {
 	return league
 }
 
-func NewFileSystemPlayerStore(database *os.File) *FileSystemPlayerStore {
-	database.Seek(0, io.SeekStart)
-	league, _ := NewLeague(database)
+func NewFileSystemPlayerStore(database *os.File) (*FileSystemPlayerStore, error) {
+	// check first the size of the file
+
+	if err := initDatabase(database); err != nil {
+		return nil, fmt.Errorf("problem while initializing database: %v", err)
+	}
+
+	league, err := NewLeague(database)
+	if err != nil {
+		return nil, fmt.Errorf("problem while loading league: %v", err)
+	}
 	return &FileSystemPlayerStore{
 		database: json.NewEncoder(&tape{database}),
 		league:   league,
+	}, nil
+}
+
+func initDatabase(database *os.File) error {
+	file, err := os.Stat(database.Name())
+	if err != nil {
+		return err
 	}
+
+	if file.Size() == 0 {
+		database.Write([]byte("[]"))
+	}
+
+	database.Seek(0, io.SeekStart)
+	return nil
 }
 
 type FileSystemPlayerStore struct {

@@ -14,8 +14,8 @@ func TestFileSystemStore(t *testing.T) {
 	database, teardown := createTempFile(t, initialData)
 	defer teardown()
 
-	store := NewFileSystemPlayerStore(database)
-
+	store, err := NewFileSystemPlayerStore(database)
+	assertNoError(t, err)
 	t.Run("league from a reader", func(t *testing.T) {
 		want := League{
 			{Name: "Luffy", Wins: 10},
@@ -47,14 +47,30 @@ func TestFileSystemStore(t *testing.T) {
 	t.Run("store wins for the new players", func(t *testing.T){
 		database, teardown := createTempFile(t, `[
 		{"Name": "Guko", "Wins": 10},
-		{"Name": "Vegita", "Wins": 20]`)
+		{"Name": "Vegita", "Wins": 20}]`)
 		defer teardown()
-		store := NewFileSystemPlayerStore(database)
+		store, err := NewFileSystemPlayerStore(database)
+		assertNoError(t, err)
 
 		name := "Luffy"
 		store.RecordWin(name)
 		assertStoreGetPlayerScore(t, store, name, 1)
 	})
+
+	t.Run("works with an empty file", func(t *testing.T){
+		db, teardown := createTempFile(t, "")
+		defer teardown()
+
+		_, err = NewFileSystemPlayerStore(db)
+		assertNoError(t, err)
+	})
+}
+
+func assertNoError(t *testing.T, err error) {
+	t.Helper()
+	if err != nil {
+		t.Fatalf("expecting no error but got '%v'", err)
+	}
 }
 
 func createTempFile(t *testing.T, initialData string) (*os.File, func()) {
