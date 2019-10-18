@@ -6,6 +6,7 @@ import (
 	"io"
 	"log"
 	"os"
+	"sort"
 )
 
 type PlayerStore interface {
@@ -79,6 +80,7 @@ type FileSystemPlayerStore struct {
 }
 
 func (f *FileSystemPlayerStore) GetLeague() (league League) {
+	sort.Slice(f.league, SortByPlayerWins(f.league))
 	return f.league
 }
 

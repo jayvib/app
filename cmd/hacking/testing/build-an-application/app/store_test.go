@@ -18,8 +18,8 @@ func TestFileSystemStore(t *testing.T) {
 	assertNoError(t, err)
 	t.Run("league from a reader", func(t *testing.T) {
 		want := League{
-			{Name: "Luffy", Wins: 10},
 			{Name: "Sanji", Wins: 20},
+			{Name: "Luffy", Wins: 10},
 		}
 		assertStoreGetLeague(t, store, want)
 
@@ -63,6 +63,24 @@ func TestFileSystemStore(t *testing.T) {
 
 		_, err = NewFileSystemPlayerStore(db)
 		assertNoError(t, err)
+	})
+
+	t.Run("sorted league", func(t *testing.T){
+		tempFile, teardown := createTempFile(t, `[
+{"Name": "Luffy", "Wins": 10},
+{"Name": "Sanji", "Wins": 20}]`)
+		defer teardown()
+
+		store, err := NewFileSystemPlayerStore(tempFile)
+		assertNoError(t, err)
+
+		want := League{
+			{Name: "Sanji", Wins: 20},
+			{Name: "Luffy", Wins: 10},
+		}
+
+		assertStoreGetLeague(t, store, want)
+		assertStoreGetLeague(t, store, want)
 	})
 }
 
