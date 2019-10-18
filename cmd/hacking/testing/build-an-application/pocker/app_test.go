@@ -156,24 +156,3 @@ func newScoreGetRequest(player string) *http.Request {
 	return req
 }
 
-type StubPlayerStore struct {
-	scores map[string]int
-	winCalls []string
-	league []Player
-}
-
-func (s *StubPlayerStore) GetPlayerScore(player string) int {
-	score, ok := s.scores[player]
-	if !ok {
-		return 0
-	}
-	return score
-}
-
-func (s *StubPlayerStore) RecordWin(player string) {
-	s.winCalls = append(s.winCalls, player)
-}
-
-func (s *StubPlayerStore) GetLeague() League {
-	return s.league
-}
