@@ -16,8 +16,8 @@ func (g GetErr) Error() string {
 func main() {
 	err1 := apperr.Error{Op: "Get", Kind: apperr.IO, Err: GetErr{}}
 	err2 := apperr.Error{Op: "Put", Kind: apperr.IO, Err: err1}
-	err3 := apperr.Error{Op: "app/search/Elasticsearch.Delete", Kind: apperr.Invalid, Err: err2}
-	err4 := apperr.Error{Op: "app/search/Elasticsearch.Add", Kind: apperr.Invalid, Err: err3}
+	err3 := apperr.Error{Op: "pocker/search/Elasticsearch.Delete", Kind: apperr.Invalid, Err: err2}
+	err4 := apperr.Error{Op: "pocker/search/Elasticsearch.Add", Kind: apperr.Invalid, Err: err3}
 
 	cause := errors.Cause(err4)
 

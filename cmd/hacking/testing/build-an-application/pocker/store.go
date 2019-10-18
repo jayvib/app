@@ -1,4 +1,4 @@
-package app
+package pocker
 
 import (
 	"encoding/json"

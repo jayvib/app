@@ -37,9 +37,9 @@ func TestCachedGetRepositories(t *testing.T) {
 
 	t.Run("return cached result after calling another GetRepositories", func(t *testing.T) {
 		dummyRepos := []Repository{
-			{"github.com/jayvib/app"},
-			{"github.com/luffy/app"},
-			{"github.com/sanji/app"},
+			{"github.com/jayvib/pocker"},
+			{"github.com/luffy/pocker"},
+			{"github.com/sanji/pocker"},
 		}
 
 		stub := stubClient{

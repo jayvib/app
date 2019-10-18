@@ -7534,7 +7534,7 @@
           // #9681 QtWebEngine event.timeStamp is negative value
           e.timeStamp <= 0 ||
           // #9448 bail if event is fired in another document in a multi-page
-          // electron/nw.js app, since event.timeStamp will be using a different
+          // electron/nw.js pocker, since event.timeStamp will be using a different
           // starting reference
           e.target.ownerDocument !== document
         ) {

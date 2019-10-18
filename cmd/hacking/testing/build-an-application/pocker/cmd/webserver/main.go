@@ -1,7 +1,7 @@
 package main
 
 import (
-	"github.com/jayvib/app/cmd/hacking/testing/build-an-application/app"
+	"github.com/jayvib/app/cmd/hacking/testing/build-an-application/pocker"
 	"log"
 	"net/http"
 	"os"
@@ -15,11 +15,11 @@ func main() {
 		log.Fatalf("error while opening %s %v", dbFileName, err)
 	}
 
-	store, err := app.NewFileSystemPlayerStore(db)
+	store, err := pocker.NewFileSystemPlayerStore(db)
 	if err != nil {
 		log.Fatalf("problem while initializing file system player store: %v",err)
 	}
-	svr := app.NewPlayerServer(store)
+	svr := pocker.NewPlayerServer(store)
 	if err := http.ListenAndServe(":5000", svr); err != nil {
 		log.Fatalf("could not listen on port 5000 %v", err)
 	}
