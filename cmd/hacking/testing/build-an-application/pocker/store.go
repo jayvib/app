@@ -74,6 +74,20 @@ func initDatabase(database *os.File) error {
 	return nil
 }
 
+func NewFileSystemPlayerStoreFromFile(filename string) (store *FileSystemPlayerStore, closer func() error , err error) {
+	db, err := os.OpenFile(filename, os.O_RDWR|os.O_CREATE, 0666)
+	if err != nil {
+		log.Fatal("unable to open file:", err)
+	}
+	store, err = NewFileSystemPlayerStore(db)
+	if err != nil {
+		return nil, nil, err
+	}
+	return store, func() error {
+		return db.Close()
+	}, nil
+}
+
 type FileSystemPlayerStore struct {
 	database *json.Encoder
 	league   League
@@ -114,3 +128,4 @@ func NewLeague(r io.Reader) (League, error) {
 	}
 	return league, nil
 }
+
