@@ -9,6 +9,8 @@ import (
 	"time"
 )
 
+const PlayerPrompt= "Please enter the number of players: "
+
 type BlindAlerter interface {
 	ScheduledAlertAt(duration time.Duration, amount int)
 }
@@ -24,11 +26,12 @@ func StdOutAlerter(duration time.Duration, amount int) {
 	})
 }
 
-func NewCLI(store PlayerStore, input io.Reader, alerter BlindAlerter) *CLI {
+func NewCLI(store PlayerStore, input io.Reader, out io.Writer, alerter BlindAlerter) *CLI {
 	return &CLI{
 		store: store,
 		scanner: bufio.NewScanner(input),
 		blindAlerter: alerter,
+		out: out,
 	}
 }
 
@@ -36,9 +39,11 @@ type CLI struct {
 	store PlayerStore
 	scanner *bufio.Scanner
 	blindAlerter BlindAlerter
+	out io.Writer
 }
 
 func (c *CLI) PlayPocker() {
+	fmt.Fprint(c.out, PlayerPrompt)
 	c.scheduledBlindAlerts()
 	c.store.RecordWin(extractName(c.readline()))
 }
