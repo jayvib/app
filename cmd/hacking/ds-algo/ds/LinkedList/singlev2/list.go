@@ -6,9 +6,9 @@ type Node struct {
 }
 
 type List struct {
-	head  *Node
+	head   *Node
 	length int
-	tail *Node // in order to avoid traversing the entire list
+	tail   *Node // in order to avoid traversing the entire list
 }
 
 // AddHead create a new node with the value passed to the function as argument
@@ -39,9 +39,8 @@ func (l *List) AddTail(value int) {
 		for curr.next != nil {
 			curr = curr.next
 		}
-
 		newNode := &Node{value: value}
-		curr.next =  newNode
+		curr.next = newNode
 		l.tail = newNode
 	}
 }
@@ -51,7 +50,7 @@ func (l *List) SortedInsert(value int) {
 	curr := l.head
 
 	// for the head
-	if curr == nil || curr.value > value{
+	if curr == nil || curr.value > value {
 		newNode.next = l.head
 		l.head = newNode
 		return
