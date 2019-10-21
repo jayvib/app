@@ -34,7 +34,7 @@ func main() {
 	http := http.Client{
 		Transport: transport,
 	}
-
+	fmt.Println(server.URL)
 	resp, err := http.Get(server.URL)
 	if err != nil {
 		panic(err)

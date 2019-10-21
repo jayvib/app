@@ -112,6 +112,26 @@ func TestListRemoveHead(t *testing.T) {
 
 }
 
+func TestIsPresent(t *testing.T) {
+	t.Run("found", func(t *testing.T){
+		l := &CircularLinkedList{}
+		l.AddHead(1)
+		l.AddHead(2)
+
+		got := l.IsPresent(1)
+		assert.True(t, got)
+	})
+
+	t.Run("not found", func(t *testing.T){
+
+		l := &CircularLinkedList{}
+		l.AddHead(1)
+		l.AddHead(1)
+		got := l.IsPresent(3)
+		assert.False(t, got)
+	})
+}
+
 func assertCount(t *testing.T, l *CircularLinkedList, want int) {
 	t.Helper()
 	assert.Equal(t, l.Size(), want)
@@ -124,4 +144,15 @@ func assertHeadAndTail(t *testing.T, l *CircularLinkedList, wantHead, wantTail i
 	gotHeadValue, _ := l.Peek()
 	assert.Equal(t, wantHead, gotHeadValue)
 	assert.Equal(t, wantTail, gotTailValue)
+}
+
+func ExamplePrint() {
+	l := &CircularLinkedList{}
+	l.AddHead(1)
+	l.AddHead(2)
+
+	l.Print()
+	// Output:
+	// 2
+	// 1
 }

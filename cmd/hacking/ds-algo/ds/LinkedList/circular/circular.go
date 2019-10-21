@@ -1,6 +1,9 @@
 package circular
 
-import "errors"
+import (
+	"errors"
+	"fmt"
+)
 
 var ErrEmptyList = errors.New("empty list")
 
@@ -66,6 +69,53 @@ func (c *CircularLinkedList) RemoveHead() (val int, err error) {
 	}
 	c.count--
 	return val, nil
+}
+
+func (c *CircularLinkedList) IsPresent(v int) (found bool) {
+	if c.tail == nil {
+		return false
+	}
+	found = false
+	c.iterate(func(n *Node)(stop bool){
+		if n.value == v {
+			found = true
+			stop = true
+		}
+		return
+	})
+
+	return found
+}
+
+func (c *CircularLinkedList) Reset() {
+	c.tail = nil
+	c.count = 0
+}
+
+func (c *CircularLinkedList) iterate(fn func(n *Node) (stop bool)) {
+	if c.IsEmpty() {
+		return
+	}
+	for n := c.tail.next; c != nil; n = n.next {
+		stop := fn(n)
+
+		if stop {
+			return
+		}
+		if n == c.tail {
+			break
+		}
+	}
+}
+
+func(c *CircularLinkedList) Print() {
+	if c.IsEmpty() {
+		return
+	}
+	c.iterate(func(n *Node) bool {
+		fmt.Println(n.value)
+		return false
+	})
 }
 
 func (c *CircularLinkedList) addNodeWhenEmpty(node *Node) (ok bool) {
