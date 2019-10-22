@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Form</title>
+</head>
+<body>
+  <form action="http://127.0.0.1:8080/postform?hello=world&thread=123" method="post" enctype="application/x-www-form-urlencoded">
+      <input type="text" name="hello" value="luffy monkey">
+      <input type="text" name="post" value="456">
+    <input type="submit" value="Submit">
+  </form>
+  <form action="http://127.0.0.1:8080/multipart?hello=world&thread=123" method="post" enctype="application/x-www-form-urlencoded">
+    <input type="text" name="hello" value="luffy monkey">
+    <input type="text" name="post" value="456">
+    <input type="submit" value="Submit">
+  </form>
+</body>
+</html>
