@@ -132,6 +132,81 @@ func TestIsPresent(t *testing.T) {
 	})
 }
 
+func TestRemoveNode(t *testing.T) {
+	t.Run("removing a node in a 2-item list should decrease its size by 1", func(t *testing.T){
+		l := &CircularLinkedList{}
+		l.AddHead(1)
+		l.AddHead(3)
+		l.RemoveNode(1)
+		gotSize := l.Size()
+		assert.Equal(t, 1, gotSize)
+	})
+
+	t.Run("3 items in the list and remove node with key of 2", func(t *testing.T){
+		l := &CircularLinkedList{}
+		l.AddHead(1)
+		l.AddHead(2)
+		l.AddHead(3)
+		l.RemoveNode(2)
+
+		got := l.tail.next.next.value
+		want := 1
+		assert.Equal(t, want, got)
+	})
+
+	t.Run("4 items in the list and remove node with key of 2", func(t *testing.T){
+		l := &CircularLinkedList{}
+		l.AddHead(1)
+		l.AddHead(2)
+		l.AddHead(3)
+		l.AddHead(4)
+		l.RemoveNode(2)
+
+		got := l.tail.next.next.next.value
+		want := 1
+		assert.Equal(t, want, got)
+	})
+
+	t.Run("removing item from a 1-item list", func(t *testing.T){
+		l := &CircularLinkedList{}
+		l.AddHead(1)
+		l.RemoveNode(1)
+		assert.Nil(t, l.tail)
+	})
+
+	t.Run("key is in the head in a two-item-list", func(t *testing.T) {
+		l := &CircularLinkedList{}
+		l.AddHead(1)
+		l.AddHead(3)
+		l.RemoveNode(3)
+
+		got := l.tail.value
+		want := 1
+		assert.Equal(t, want, got)
+	})
+
+	t.Run("key is in the tail in a two-item-list", func(t *testing.T){
+		l := &CircularLinkedList{}
+		l.AddHead(1)
+		l.AddHead(3)
+		l.RemoveNode(1)
+
+		got := l.tail.value
+		want := 3
+		assert.Equal(t, want, got)
+	})
+
+	t.Run("not found", func(t *testing.T){
+		l := &CircularLinkedList{}
+		l.AddHead(1)
+		l.AddHead(3)
+		ok := l.RemoveNode(8)
+		assert.False(t, ok)
+
+		assert.Equal(t, 2, l.count)
+	})
+}
+
 func assertCount(t *testing.T, l *CircularLinkedList, want int) {
 	t.Helper()
 	assert.Equal(t, l.Size(), want)

@@ -92,6 +92,38 @@ func (c *CircularLinkedList) Reset() {
 	c.count = 0
 }
 
+func (c *CircularLinkedList) RemoveNode(key int) (ok bool) {
+
+	head, tail := c.tail.next, c.tail
+	// key is in the head
+	if head.value == key {
+		if head == tail {
+			c.tail = nil
+		}
+		c.count--
+		return true
+	}
+
+	// somewhere in the body
+	for curr, prev := head.next, tail.next; curr != nil; curr, prev = curr.next, curr {
+		if curr.value == key {
+			if curr != tail {
+				prev.next = curr.next
+			} else {
+				prev.next = head
+				c.tail = prev
+			}
+			c.count--
+			return true
+		}
+		if curr == tail {
+			break
+		}
+	}
+
+	return false
+}
+
 func (c *CircularLinkedList) iterate(fn func(n *Node) (stop bool)) {
 	if c.IsEmpty() {
 		return
