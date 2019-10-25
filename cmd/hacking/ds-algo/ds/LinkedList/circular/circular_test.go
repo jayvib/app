@@ -207,6 +207,42 @@ func TestRemoveNode(t *testing.T) {
 	})
 }
 
+func TestCopyListReversed(t *testing.T) {
+	l := &CircularLinkedList{}
+	l.AddHead(1)
+	l.AddHead(2)
+	l.AddHead(3)
+
+	want := []int{1, 2, 3}
+	reversed := l.CopyListReversed()
+
+	got := toSlice(reversed)
+	assert.Equal(t, want, got)
+}
+
+func TestCopyList(t *testing.T) {
+	l := &CircularLinkedList{}
+	l.AddHead(1)
+	l.AddHead(2)
+	l.AddHead(3)
+
+	want := []int{3, 2, 1}
+	copyL := l.CopyList()
+
+	got := toSlice(copyL)
+	assert.Equal(t, want, got)
+	assert.False(t, l == copyL)
+}
+
+func toSlice(reversed *CircularLinkedList) []int {
+	var got []int
+	reversed.iterate(func(n *Node) bool {
+		got = append(got, n.value)
+		return false
+	})
+	return got
+}
+
 func assertCount(t *testing.T, l *CircularLinkedList, want int) {
 	t.Helper()
 	assert.Equal(t, l.Size(), want)

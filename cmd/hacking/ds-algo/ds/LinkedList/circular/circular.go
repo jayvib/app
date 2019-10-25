@@ -124,6 +124,28 @@ func (c *CircularLinkedList) RemoveNode(key int) (ok bool) {
 	return false
 }
 
+func (c *CircularLinkedList) CopyListReversed() (*CircularLinkedList) {
+
+	reversedList := new(CircularLinkedList)
+
+	c.iterate(func(n *Node) bool {
+		reversedList.AddHead(n.value)
+		return false
+	})
+
+	return reversedList
+}
+
+func (c *CircularLinkedList) CopyList() (*CircularLinkedList) {
+	copyL := new(CircularLinkedList)
+
+	c.iterate(func(n *Node) bool {
+		copyL.AddTail(n.value)
+		return false
+	})
+	return copyL
+}
+
 func (c *CircularLinkedList) iterate(fn func(n *Node) (stop bool)) {
 	if c.IsEmpty() {
 		return
