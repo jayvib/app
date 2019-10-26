@@ -1,0 +1,16 @@
+<html>
+<head>
+    <title>Conditional Action</title>
+</head>
+<body>
+    <div>The dot is {{ "Hello" }}</div>
+    <div>
+        {{ with . }}
+            Now the dot is set to {{ . }}
+        {{ else }}
+            dot is still {{ "Hello" }}
+        {{ end }}
+    </div>
+    <div>The dot is {{ "Hello" }} again</div>
+</body>
+</html>
