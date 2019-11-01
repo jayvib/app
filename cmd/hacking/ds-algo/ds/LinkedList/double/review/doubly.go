@@ -67,3 +67,20 @@ func (l *List) PrintOut(out io.Writer) {
 		fmt.Fprintln(out, tmp.value)
 	}
 }
+
+func (l *List) RemoveHead() (val int, ok bool) {
+	if l.IsEmpty() {
+		return 0, false
+	}
+
+	head := l.head
+	l.head = l.head.next
+	if l.head == nil {
+		l.tail = nil
+	} else {
+		l.head.previous = nil
+	}
+
+	l.length--
+	return head.value, true
+}

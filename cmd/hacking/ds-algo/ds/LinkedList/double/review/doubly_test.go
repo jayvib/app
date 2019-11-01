@@ -69,6 +69,39 @@ func TestList_PrintOut(t *testing.T) {
 	assert.Equal(t, want, got)
 }
 
+func TestList_RemoveHead(t *testing.T) {
+	t.Run("When list size is more then one", func(t *testing.T){
+		l := &List{}
+		l.AddHead(1)
+		l.AddHead(2)
+		val, _ := l.RemoveHead()
+		assert.Equal(t, 2, val)
+		assert.Equal(t, 1, l.head.value)
+		assert.Nil(t, l.head.previous)
+	})
+
+	t.Run("When list size is one", func(t *testing.T) {
+		l := &List{}
+		l.AddHead(1)
+		val, _ := l.RemoveHead()
+		assert.Equal(t, 1, val)
+		assertNilHeadAndTail(t, l)
+	})
+
+	t.Run("Size should decrement by 1", func(t *testing.T) {
+		l := &List{}
+		l.AddHead(1)
+		l.RemoveHead()
+		assertListLength(t, 0, l)
+	})
+
+	t.Run("When list is empty", func(t *testing.T) {
+		l := &List{}
+		_, ok := l.RemoveHead()
+		assert.False(t, ok)
+	})
+}
+
 func assertListLength(t *testing.T, want int, l *List) {
 	t.Helper()
 	assert.Equal(t, want, l.Len())
@@ -78,6 +111,12 @@ func assertHeadAndTailNotNil(t *testing.T, l *List) {
 	t.Helper()
 	assert.NotNil(t, l.head)
 	assert.NotNil(t, l.tail)
+}
+
+func assertNilHeadAndTail(t *testing.T, l *List) {
+	t.Helper()
+	assert.Nil(t, l.head)
+	assert.Nil(t, l.tail)
 }
 
 func assertHeadAndTail(t *testing.T, wantHead, wantTail int, l *List) {
