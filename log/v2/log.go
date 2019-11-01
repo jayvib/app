@@ -81,8 +81,7 @@ func (l Level) String() string {
 }
 
 type globalState struct {
-	currentLevel  Level
-	defaultLogger Logger
+	currentLevel Level
 }
 
 func getState() *globalState {
