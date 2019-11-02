@@ -147,6 +147,9 @@ func TestList_RemoveNode(t *testing.T) {
 		assertListPrintOut(t, wantOrder, l)
 		assertListLength(t, 2, l)
 	})
+
+	// TODO: Test when the list is empty
+	// TODO: Test when the value is not exists
 }
 
 func assertValueNotExists(t *testing.T, want int, l *List) {
