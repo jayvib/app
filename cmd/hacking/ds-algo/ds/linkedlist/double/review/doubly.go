@@ -136,3 +136,16 @@ func (l *List) RemoveNode(value int) (ok bool) {
 	}
 	return
 }
+
+func (l *List) Reverse() {
+	for curr, next := l.head, l.head.next; curr != nil; curr, next = next, next.next {
+		curr.next = curr.previous	// Switch
+		curr.previous = next
+		if next == nil {
+			l.tail = l.head
+			l.head = curr
+			return
+		}
+	}
+}
+

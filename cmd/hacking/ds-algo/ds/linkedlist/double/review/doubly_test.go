@@ -152,6 +152,26 @@ func TestList_RemoveNode(t *testing.T) {
 	// TODO: Test when the value is not exists
 }
 
+func TestList_Reverse(t *testing.T) {
+	l := &List{}
+	l.AddHead(1)
+	l.AddHead(2)
+	l.AddHead(3)
+	l.Reverse()
+	wantOrder := "1\n2\n3\n"
+	assertListPrintOut(t, wantOrder, l)
+}
+
+func TestList_Sort(t *testing.T) {
+	l := &List{}
+	l.AddHead(1)
+	l.AddHead(2)
+	l.AddHead(3)
+	l.Sort()
+	wantOrder := "1\n2\n3\n"
+	assertListPrintOut(t, wantOrder, l)
+}
+
 func assertValueNotExists(t *testing.T, want int, l *List) {
 	assert.False(t, l.IsExists(want))
 }
