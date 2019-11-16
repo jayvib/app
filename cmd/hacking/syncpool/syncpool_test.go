@@ -20,7 +20,9 @@ func TestMarshalJSON(t *testing.T) {
 var result string
 
 // Without sync pool:
-// BenchmarkMarshalJSON-4   	 2188296	       494 ns/op
+// BenchmarkMarshalJSON-4           2301547               523 ns/op             144 B/op          3 allocs/op
+// With sync pool:
+// BenchmarkMarshalJSON-4           2803039               469 ns/op              32 B/op          1 allocs/op
 func BenchmarkMarshalJSON(b *testing.B) {
 	p := &Person{
 		Name: "Luffy Monkey",
