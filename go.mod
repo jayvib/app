@@ -5,9 +5,11 @@ go 1.13
 require (
 	github.com/DATA-DOG/go-sqlmock v1.3.3
 	github.com/Workiva/go-datastructures v1.0.50
+	github.com/alexedwards/scs/v2 v2.2.0
 	github.com/aws/aws-lambda-go v1.13.2
 	github.com/aws/aws-sdk-go v1.23.21
 	github.com/awslabs/aws-lambda-go-api-proxy v0.4.1
+	github.com/casbin/casbin v1.9.1
 	github.com/dgrijalva/jwt-go v3.2.0+incompatible
 	github.com/gin-gonic/gin v1.4.0
 	github.com/go-playground/locales v0.12.1
@@ -37,5 +39,5 @@ require (
 	golang.org/x/sync v0.0.0-20190911185100-cd5d95a43a6e
 	google.golang.org/grpc v1.23.1
 	gopkg.in/go-playground/validator.v9 v9.29.1
-	upspin.io v0.0.0-20190429152748-8fa1bb72e8fd
+	upspin.io v0.0.0-20190429152748-8fa1bb72e8fd // indirect
 )
