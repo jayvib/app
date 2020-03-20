@@ -1,1 +1,0 @@
-Liskov substitution principle: Parent Types, Sub Types, or any types should be substitutable by one another.

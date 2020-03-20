@@ -1,1 +1,0 @@
-Testing are all the tutorials for learning Go Testing
