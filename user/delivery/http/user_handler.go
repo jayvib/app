@@ -16,7 +16,7 @@ import (
 	"time"
 )
 
-func RegisterHandlers(conf *config.Config, r gin.IRouter, us user.Usecase) {
+func RegisterHandlers(conf *config.Config, r gin.IRouter, us user.Service) {
 	handler := NewUserHandler(conf, us)
 	registerHandlers(r, handler)
 }
@@ -30,7 +30,7 @@ func registerHandlers(r gin.IRouter, handler *UserHandler) {
 	r.POST("/user/new", handler.Register)
 }
 
-func NewUserHandler(conf *config.Config, u user.Usecase) *UserHandler {
+func NewUserHandler(conf *config.Config, u user.Service) *UserHandler {
 	return &UserHandler{
 		config:   conf,
 		UUsecase: u,
@@ -39,7 +39,7 @@ func NewUserHandler(conf *config.Config, u user.Usecase) *UserHandler {
 
 type UserHandler struct {
 	config   *config.Config
-	UUsecase user.Usecase
+	UUsecase user.Service
 }
 
 type RequestError struct {

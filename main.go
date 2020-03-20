@@ -18,13 +18,12 @@ import (
 	"github.com/gin-gonic/gin"
 	articlehttp "github.com/jayvib/app/article/delivery/http"
 	articlerepo "github.com/jayvib/app/article/repository/mysql"
-	articleusecase "github.com/jayvib/app/article/usecase"
+	articleusecase "github.com/jayvib/app/article/service"
 	authorrepo "github.com/jayvib/app/author/repository/mysql"
-	jwtmiddleware "github.com/jayvib/app/middleware/jwt"
 	userhttp "github.com/jayvib/app/user/delivery/http"
 	userrepo "github.com/jayvib/app/user/repository/mysql"
 	usersearches "github.com/jayvib/app/user/search/elasticsearch"
-	userusecase "github.com/jayvib/app/user/usecase"
+	userusecase "github.com/jayvib/app/user/service"
 	"github.com/sirupsen/logrus"
 )
 
@@ -84,7 +83,7 @@ func main() {
 	e := gin.Default()
 	api := e.Group("/")           // authentication not required
 	authapi := e.Group("/api/v1") // authentication is required
-	authapi.Use(jwtmiddleware.Authenticate(conf.JWTToken))
+	//authapi.Use(jwtmiddleware.Authenticate(conf.JWTToken))
 
 	// ##########Author###########
 	authorRepo := authorrepo.New(db)

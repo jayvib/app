@@ -5,9 +5,9 @@ import (
 	"github.com/jayvib/app/model"
 )
 
-//go:generate mockery -name=Usecase
+//go:generate mockery -name=Service
 
-type Usecase interface {
+type Service interface {
 	GetByID(ctx context.Context, id string) (*model.Author, error)
 	Store(ctx context.Context, u *model.Author) error
 }

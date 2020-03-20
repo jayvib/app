@@ -47,9 +47,9 @@ func loadConfig() (*Config, error) {
 	}
 	viper.SetConfigType("json")
 	viper.AddConfigPath("$HOME")
-	viper.AddConfigPath("$HOME/.app")
-	// In docker, the executable is located in /app/. See the Dockerfile.
-	viper.AddConfigPath("/app")
+	viper.AddConfigPath("$HOME/.pocker")
+	// In docker, the executable is located in /pocker/. See the Dockerfile.
+	viper.AddConfigPath("/pocker")
 	viper.AddConfigPath(".")
 	if err := viper.ReadInConfig(); err != nil {
 		return nil, err
@@ -72,7 +72,7 @@ func GetConfig() *Config {
 }
 
 // Config is the configuration setting
-// use within the app.
+// use within the pocker.
 type Config struct {
 	Debug    bool `json:"debug"`
 	Database struct {

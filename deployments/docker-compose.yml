@@ -1,7 +1,7 @@
 version: "3.7"
 services:
     app:
-        image: app:latest
+        image: pocker:latest
         container_name: app_api
         environment:
             - APP_ENV=PRODUCTION
@@ -11,10 +11,10 @@ services:
             - mysql
             - elasticsearch
         volumes:
-           - ./config.json:/app/config.json
-           - ./user.json:/app/user.json
-           - ./article.json:/app/article.json
-           - ./wait-for-it.sh:/app/wait-for-it.sh
+           - ./config.json:/pocker/config.json
+           - ./user.json:/pocker/user.json
+           - ./article.json:/pocker/article.json
+           - ./wait-for-it.sh:/pocker/wait-for-it.sh
         restart: always
     elasticsearch:
         image: elasticsearch:7.3.1
@@ -31,9 +31,9 @@ services:
         ports:
             - 3306:3306
         volumes:
-            - ./app.sql:/docker-entrypoint-initdb.d/init.sql
+            - ./pocker.sql:/docker-entrypoint-initdb.d/init.sql
         environment:
-            - MYSQL_DATABASE=app
+            - MYSQL_DATABASE=pocker
             - MYSQL_USER=user
             - MYSQL_PASSWORD=mypassword
             - MYSQL_ROOT_PASSWORD=root

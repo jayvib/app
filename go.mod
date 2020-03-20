@@ -5,19 +5,25 @@ go 1.13
 require (
 	github.com/DATA-DOG/go-sqlmock v1.3.3
 	github.com/Workiva/go-datastructures v1.0.50
+	github.com/alexedwards/scs/v2 v2.2.0
 	github.com/aws/aws-lambda-go v1.13.2
 	github.com/aws/aws-sdk-go v1.23.21
 	github.com/awslabs/aws-lambda-go-api-proxy v0.4.1
+	github.com/casbin/casbin v1.9.1
 	github.com/dgrijalva/jwt-go v3.2.0+incompatible
 	github.com/gin-gonic/gin v1.4.0
 	github.com/go-playground/locales v0.12.1
 	github.com/go-playground/universal-translator v0.16.0
+	github.com/go-redis/redis/v7 v7.0.0-beta.4
 	github.com/go-sql-driver/mysql v1.4.1
 	github.com/golang/protobuf v1.3.2
+	github.com/gorilla/websocket v1.4.0
 	github.com/leodido/go-urn v1.1.0 // indirect
 	github.com/magiconair/properties v1.8.1
 	github.com/mitchellh/go-homedir v1.1.0
 	github.com/olivere/elastic/v7 v7.0.6
+	github.com/onsi/ginkgo v1.10.2
+	github.com/onsi/gomega v1.7.0
 	github.com/patrickmn/go-cache v2.1.0+incompatible
 	github.com/pkg/errors v0.8.1
 	github.com/prometheus/client_golang v1.0.0
@@ -28,8 +34,10 @@ require (
 	github.com/spf13/cobra v0.0.5
 	github.com/spf13/viper v1.4.0
 	github.com/stretchr/testify v1.4.0
+	github.com/upspin/upspin v0.0.0-20190429152748-8fa1bb72e8fd // indirect
 	golang.org/x/crypto v0.0.0-20190911031432-227b76d455e7
 	golang.org/x/sync v0.0.0-20190911185100-cd5d95a43a6e
 	google.golang.org/grpc v1.23.1
 	gopkg.in/go-playground/validator.v9 v9.29.1
+	upspin.io v0.0.0-20190429152748-8fa1bb72e8fd // indirect
 )

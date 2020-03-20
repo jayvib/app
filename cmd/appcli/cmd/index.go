@@ -59,7 +59,7 @@ Example:
 func init() {
 	createCmd.AddCommand(indexCmd)
 	indexCmd.Flags().StringVarP(&type_, "type", "t", "",
-		"Use to indicate the app model type. Possible values are [user|author|article]")
+		"Use to indicate the pocker model type. Possible values are [user|author|article]")
 	indexCmd.Flags().StringVarP(&env, "env", "e", "local",
 		"Environment where index will be created. Possible values are [local|staging|prod]")
 	indexCmd.Flags().StringVarP(&file, "file", "f", "",
