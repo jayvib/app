@@ -1,6 +1,6 @@
 // +build unit
 
-package usecase
+package service
 
 import (
 	"context"

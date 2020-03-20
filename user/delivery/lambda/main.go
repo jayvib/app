@@ -15,7 +15,7 @@ import (
 	"github.com/jayvib/app/user/delivery/http"
 	userdynamo "github.com/jayvib/app/user/repository/dynamo"
 	usersearches "github.com/jayvib/app/user/search/elasticsearch"
-	"github.com/jayvib/app/user/usecase"
+	"github.com/jayvib/app/user/service"
 	"github.com/olivere/elastic/v7"
 	"log"
 	"sync"
@@ -45,7 +45,7 @@ func init() {
 
 type HandlerFunc func(ctx context.Context, req events.APIGatewayProxyRequest) (events.APIGatewayProxyResponse, error)
 
-func newGinLambdaAdapter(usecase user.Usecase) *ginadapter.GinLambda {
+func newGinLambdaAdapter(usecase user.Service) *ginadapter.GinLambda {
 	r := newEngine(usecase)
 	ginLambda := ginadapter.New(r)
 	return ginLambda
@@ -59,7 +59,7 @@ func newDynamoDb() *dynamodb.DynamoDB {
 	return dynamodb.New(sess, aws.NewConfig().WithRegion(region))
 }
 
-func newEngine(usecase user.Usecase) *gin.Engine {
+func newEngine(usecase user.Service) *gin.Engine {
 	e := gin.Default()
 	conf, err := config.New()
 	if err != nil {
@@ -69,7 +69,7 @@ func newEngine(usecase user.Usecase) *gin.Engine {
 	return e
 }
 
-func newHandler(usecase user.Usecase) HandlerFunc {
+func newHandler(usecase user.Service) HandlerFunc {
 	return func(ctx context.Context, req events.APIGatewayProxyRequest) (events.APIGatewayProxyResponse, error) {
 		ginLambdaOnce.Do(func() { // avoid re-initializing the gin adapter in the next invocation.
 			ginLambda = newGinLambdaAdapter(usecase)
@@ -110,6 +110,6 @@ func main() {
 	// Elasticsearch will be running in EC2 machines under private network
 	// so make sure that the lambda has the VPC-ID in order to access
 	// the EC2 machines.
-	uc := usecase.New(userRepo, authorrepo, userSearchEngine) // this will panic when run in the production
+	uc := service.New(userRepo, authorrepo, userSearchEngine) // this will panic when run in the production
 	lambda.Start(newHandler(uc))
 }

@@ -1,4 +1,4 @@
-package usecase
+package service
 
 import (
 	"context"
@@ -18,7 +18,7 @@ type Opt struct {
 	SearchEngine     user.SearchEngine
 }
 
-func New(repo user.Repository, authrepo author.Repository, se user.SearchEngine) user.Usecase {
+func New(repo user.Repository, authrepo author.Repository, se user.SearchEngine) user.Service {
 	return &User{
 		repo:       repo,
 		authorRepo: authrepo,

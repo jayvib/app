@@ -1,11 +1,11 @@
 // +build unit
 
-package usecase_test
+package service_test
 
 import (
 	"context"
 	"github.com/jayvib/app/author/mocks"
-	"github.com/jayvib/app/author/usecase"
+	"github.com/jayvib/app/author/service"
 	"github.com/jayvib/app/model"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/mock"
@@ -26,7 +26,7 @@ func TestGetByID(t *testing.T) {
 
 	t.Run("success", func(t *testing.T) {
 		repo.On("GetByID", mock.Anything, mock.AnythingOfType("string")).Return(mockAuthor, nil).Once()
-		uc := usecase.New(repo)
+		uc := service.New(repo)
 		au, err := uc.GetByID(context.Background(), mockAuthor.ID)
 		require.NoError(t, err)
 		assert.Equal(t, mockAuthor, au)
@@ -45,7 +45,7 @@ func TestStore(t *testing.T) {
 	t.Run("success", func(t *testing.T) {
 		repo.On("Store", mock.Anything, mock.AnythingOfType("*model.Author")).
 			Return(nil).Once()
-		uc := usecase.New(repo)
+		uc := service.New(repo)
 		copyAuthor := &(*mockAuthor)
 		copyAuthor.ID = ""
 		err := uc.Store(context.Background(), copyAuthor)

@@ -1,4 +1,4 @@
-package usecase
+package service
 
 import (
 	"context"
@@ -13,7 +13,7 @@ import (
 	"github.com/jayvib/app/model"
 )
 
-func New(artr article.Repository, autr author.Repository, duration time.Duration) article.Usecase {
+func New(artr article.Repository, autr author.Repository, duration time.Duration) article.Service {
 	return &articleUsecase{
 		articleRepo:    artr,
 		authorRepo:     autr,

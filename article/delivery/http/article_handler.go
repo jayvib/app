@@ -13,7 +13,7 @@ import (
 	"strconv"
 )
 
-func RegisterHandlers(conf *config.Config, r gin.IRouter, u article.Usecase) {
+func RegisterHandlers(conf *config.Config, r gin.IRouter, u article.Service) {
 	h := NewHandler(conf, u)
 	registerHandlers(r, h)
 }
@@ -30,7 +30,7 @@ type RequestError struct {
 	Msg string `json:"msg,omitempty"`
 }
 
-func NewHandler(conf *config.Config, uc article.Usecase) *ArticleHandler {
+func NewHandler(conf *config.Config, uc article.Service) *ArticleHandler {
 	return &ArticleHandler{
 		AUsecase: uc,
 		config:   conf,
@@ -38,7 +38,7 @@ func NewHandler(conf *config.Config, uc article.Usecase) *ArticleHandler {
 }
 
 type ArticleHandler struct {
-	AUsecase article.Usecase
+	AUsecase article.Service
 	config   *config.Config
 }
 

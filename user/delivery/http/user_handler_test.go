@@ -12,7 +12,7 @@ import (
 	"github.com/jayvib/app/config"
 	"github.com/jayvib/app/model"
 	"github.com/jayvib/app/user/mocks"
-	userusecase "github.com/jayvib/app/user/usecase"
+	userusecase "github.com/jayvib/app/user/service"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/mock"
 	"github.com/stretchr/testify/require"
